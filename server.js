@@ -18,6 +18,8 @@ router.get('/helloWorld/', function (req, res) {
 })
 
 router.route('/addUser').post(usrCtrl.addUser)
+router.route('/deleteUser/:nom').delete(usrCtrl.deleteUser)
+router.route('/updateUser/:nom').put(usrCtrl.updateUser)
 
 app.use(router)
 

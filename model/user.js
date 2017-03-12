@@ -2,7 +2,11 @@ mongoose = require('mongoose')
 
 var userSchema = new mongoose.Schema({
     nom: String,
-    nom_usuari: String,
+    nom_user: {
+        type: String,
+        unique: true,
+        required: true
+    },
     password: String,
     path: String,
     localitat: String,
