@@ -7,13 +7,23 @@ var userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    password: String,
-    path: String,
-    localitat: String,
+    password_hash: String,
+    salt: String,
+    path: {
+        type: String,
+        default: ''
+    },
+    localitat: {
+        type: String,
+        default: ''
+    },
     preferencies: [String],
     productes: [String],
     intercanvis: [String],
-    reputacio: String
+    reputacio: {
+        type: String,
+        default: ''
+    },
 
 })
 
