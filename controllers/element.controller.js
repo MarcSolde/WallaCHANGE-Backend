@@ -2,9 +2,9 @@
  * Created by annamasc on 24/03/2017.
  */
 
-var mongoose = require('mongoose');
+/*var mongoose = require('mongoose');
 var element = mongoose.model('element');
-'use strict'
+'use strict'*/
 
 var elementSvc = require('../services/element.service');
 

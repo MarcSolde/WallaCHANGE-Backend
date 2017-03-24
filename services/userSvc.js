@@ -1,7 +1,7 @@
-var mongoose = require("mongoose")
-var usuari = mongoose.model('usuari')
-'use strict'
-var crypto = require('crypto')
+var mongoose = require('mongoose');
+var usuari = mongoose.model('usuari');
+'use strict';
+var crypto = require('crypto');
 
 var genRandomString = function(length){
     return crypto.randomBytes(Math.ceil(length/2))

@@ -15,7 +15,7 @@ var elementSchema = new mongoose.Schema({
     es_temporal: Boolean,
     tags: [String],
     comentaris: [{
-        comentari: Text,
+        comentari: String,
         usuari: String
     }],
     coordenades: {
