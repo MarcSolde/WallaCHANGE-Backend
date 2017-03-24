@@ -2,7 +2,7 @@
  * Created by annamasc on 24/03/2017.
  */
 var mongoose = require('mongoose');
-var element = mongoose.model('../models/element.model');
+var element = mongoose.model('element');
 'use strict'
 
 exports.createElement = function (req) {
