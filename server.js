@@ -16,6 +16,14 @@ router.get('/helloWorld/', function (req, res) {
 
 app.use(router)
 
-app.listen(3000, function() {
-    console.log("Node server running on http://localhost:3000");
-});
+if (process.argv[2]== 'docker') Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
+else Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
+
+mongoose.connect(Mongodb, function (err, res) {
+    if (err) {
+        console.log("Error connecting to the DB")
+    }
+    app.listen(3000, function() {
+        console.log("Node server running on http://localhost:3000");
+    });
+})
