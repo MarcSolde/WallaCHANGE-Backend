@@ -12,12 +12,14 @@ app.use(bodyParser.json())
 app.use(methodOverride())
 var router = express.Router()
 
-var models = require('./model/user')
+var models = require('./model/user', './model/element.model.js')
 var usrCtrl = require('./controllers/user')
+var elemCtrl = require('./controllers/element.controller');
 
-app.use('/', require('./routes/user'))
+app.use('/', require('./routes'))
 
 router.route('/updateUser/:nom_user').put(usrCtrl.updateUser)
+
 
 app.use(router)
 
