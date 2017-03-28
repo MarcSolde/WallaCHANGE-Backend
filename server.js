@@ -1,18 +1,23 @@
 var express = require("express"),
     app = express(),
     bodyParser  = require("body-parser"),
-    methodOverride = require("method-override");
-mongoose = require('mongoose');
+    methodOverride = require("method-override"),
+    mongoose = require('mongoose');
+
+var config = require('./config')
+var jwt = require('jsonwebtoken')
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(methodOverride())
-
 var router = express.Router()
 
-router.get('/helloWorld/', function (req, res) {
-    res.send("hello")
-})
+var models = require('./model/user')
+var usrCtrl = require('./controllers/user')
+
+app.use('/', require('./routes/user'))
+
+router.route('/updateUser/:nom_user').put(usrCtrl.updateUser)
 
 app.use(router)
 
@@ -27,3 +32,5 @@ mongoose.connect(Mongodb, function (err, res) {
         console.log("Node server running on http://localhost:3000");
     });
 })
+
+module.exports = app;
