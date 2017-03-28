@@ -7,19 +7,22 @@ var express = require("express"),
 var config = require('./config')
 var jwt = require('jsonwebtoken')
 
+var users = require('./routes/user');
+var elems = require('./routes/elements.route');
+
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(methodOverride())
-var router = express.Router()
+//var router = express.Router()
 
-var models = require('./model/user')
-var usrCtrl = require('./controllers/user')
+app.use('/', users);
+app.use('/api', elems);
+/*app.use('/', require('./routes/elements.route'))
 
-app.use('/', require('./routes/user'))
+router.route('/updateUser/:nom_user').put(usrCtrl.updateUser)*/
 
-router.route('/updateUser/:nom_user').put(usrCtrl.updateUser)
 
-app.use(router)
+//app.use(router)
 
 if (process.argv[2]== 'docker') Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
 else Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
