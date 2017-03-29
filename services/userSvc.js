@@ -45,10 +45,21 @@ exports.createUser = function (req) {
     return user;
 }
 
-exports.saveUser = function (user, res) {
+/*exports.saveUser = function (user, res) {
     user.save(function (err, user) {
-        if (err) return res.status(500).send(err.message)
-        res.status(200).json(user)
+        console.log("asddsa777777")
+        if (err) {
+            console.log("aaa "+typeof (err))
+            return err
+        }
+        else return true
+    }) ///Per arreglar, JS promises TODO
+    console.log("asddsa")
+}*/
+
+exports.saveUser = function (user, callback) {
+    user.save(function (err, user) {
+        callback(err, user);
     })
 }
 

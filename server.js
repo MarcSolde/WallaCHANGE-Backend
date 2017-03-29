@@ -24,7 +24,10 @@ router.route('/updateUser/:nom_user').put(usrCtrl.updateUser)*/
 
 //app.use(router)
 
-mongoose.connect('mongodb://192.168.99.100:27017/pesDB', function (err, res) {
+if (process.argv[2]== 'docker') Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
+else Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
+
+mongoose.connect(Mongodb, function (err, res) {
     if (err) {
         console.log("Error connecting to the DB")
     }
