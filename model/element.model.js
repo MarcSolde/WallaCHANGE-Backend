@@ -18,7 +18,7 @@ var elementSchema = new mongoose.Schema({
         comentari: String,
         usuari: String
     }],
-    coordenades: {
+   coordenades: {
         x: Number,
         y: Number
     },
