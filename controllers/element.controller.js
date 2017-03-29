@@ -22,3 +22,11 @@ exports.deleteElement = function (req, res) {
 exports.updateElement = function (req, res) {
     elementSvc.updateElement(req, res);
 }
+
+exports.getOneElement = function (req, res) {
+
+}
+
+exports.getAllElements = function (req, res) {
+
+}

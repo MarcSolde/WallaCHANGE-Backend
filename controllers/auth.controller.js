@@ -1,4 +1,4 @@
-var authSvc = require('../services/authSvc')
+var authSvc = require('../services/auth.service')
 
 exports.login = function (req, res) {
     authSvc.login(req, res)

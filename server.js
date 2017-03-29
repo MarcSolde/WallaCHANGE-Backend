@@ -4,36 +4,33 @@ var express = require("express"),
     methodOverride = require("method-override"),
     mongoose = require('mongoose');
 
-var config = require('./config')
-var jwt = require('jsonwebtoken')
+var config = require('./config');
+var jwt = require('jsonwebtoken');
 
-var users = require('./routes/user');
-var elems = require('./routes/elements.route');
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(methodOverride());
 
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-app.use(methodOverride())
-//var router = express.Router()
+var userModel = require('./model/user.model');
+var elemModel = require('./model/element.model');
 
-app.use('/', users);
-app.use('/api', elems);
-/*app.use('/', require('./routes/elements.route'))
+var router = express.Router();
 
-router.route('/updateUser/:nom_user').put(usrCtrl.updateUser)*/
+app.use('/', require('./routes/user.route'));
+app.use('/api', require('./routes/elements.route'));
 
+app.use(router);
 
-//app.use(router)
-
-if (process.argv[2]== 'docker') Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
-else Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
+if (process.argv[2]== 'docker') Mongodb = 'mongodb://192.168.99.100:27017/pesDB';
+else Mongodb = 'mongodb://192.168.99.100:27017/pesDB';
 
 mongoose.connect(Mongodb, function (err, res) {
     if (err) {
-        console.log("Error connecting to the DB")
+        console.log("Error connecting to the DB");
     }
     app.listen(3000, function() {
         console.log("Node server running on http://localhost:3000");
     });
-})
+});
 
 module.exports = app;
