@@ -8,8 +8,27 @@ var config = require('../config')
 
 var userSvc = require('../services/userSvc')
 
+/*exports.addUser = function (req, res) {
+    var usuari = userSvc.createUser(req)
+    var estatSvc = userSvc.saveUser(usuari)
+    if (typeof(estatSvc) == typeof({a:"a", b:"b"})) {
+        console.log("hola")
+        res.status(500).send(estatSvc.message)
+    }
+    else res.status(200).json(usuari)
+}*/
+
 exports.addUser = function (req, res) {
-    userSvc.saveUser(userSvc.createUser(req), res)
+    var usuari = userSvc.createUser(req)
+    var estatSvc = userSvc.saveUser(usuari, function (err, nErr) {
+        if (err) {
+            console.log("hola")
+            res.status(500).send(err.message)
+        }
+        else res.status(200).json(usuari)
+    })
+
+
 }
 
 exports.deleteUser = function (req, res) {
