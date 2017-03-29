@@ -23,10 +23,10 @@ exports.createElement = function (req) {
 }
 
 exports.saveElement = function(element, res) {
-    /*element.save(function (err, element) {
+    element.save(function (err, element) {
        if (err) return res.status(500).send(err.message);
        res.status(200).json(element); //have no idea of what I'm doing
-    });*/
+    });
 }
 
 exports.deleteElement = function (req, res) {
