@@ -3,7 +3,7 @@ var usuari = mongoose.model('usuari')
 'use strict'
 var crypto = require('crypto')
 var jwt = require('jsonwebtoken')
-var config = require('../config')
+var config = require('./config/config')
 */
 
 var userSvc = require('../services/userSvc')
