@@ -19,8 +19,6 @@ exports.createElement = function (req) {
         coordenades: req.body.coordenades,
     })
 
-    console.log(elem);
-
     return elem;
 }
 
@@ -29,6 +27,11 @@ exports.saveElement = function(element, callback) {
     element.save(function (err, element) {
         callback(err, element);
     })
+}
+
+exports.findElementByTitol = function (elementTitol, callback) {
+    var query = element.find({ 'titol': elementTitol });
+    query.exec(callback (err, element));
 }
 
 exports.deleteElement = function (req, res) {
