@@ -1,9 +1,9 @@
 var express = require('express')
 var router = express.Router()
 var jwt = require('jsonwebtoken')
-var userCtrl = require('../controllers/user')
-var authCtrl = require('../controllers/auth')
-var auth = require('./auth')
+var userCtrl = require('../controllers/user.controller')
+var authCtrl = require('../controllers/auth.controller')
+var auth = require('./auth.route')
 //Non-auth
 router.use(function (req, res, next) {
     next()

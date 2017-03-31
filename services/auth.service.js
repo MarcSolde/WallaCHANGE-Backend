@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken')
 var usuari = mongoose.model('usuari')
-var userSvc = require('./userSvc')
+var userSvc = require('./user.service')
 var config = require('../config/config')
 'use strict'
 
