@@ -9,19 +9,27 @@ var element = mongoose.model('element');
 var elementSvc = require('../services/element.service');
 
 exports.addElement = function (req, res) {
-    elementSvc.saveElement(elementSvc.createElement(req), res);
-    if (!stat) res.status(500).send(err.message);
-    else res.status(200);
+    var element = elementSvc.createElement(req);
+    elementSvc.saveElement(element, function (err, nErr) {
+        if (err) {
+            console.log("no s'ha guardat l'element");
+            res.status(500).send(err.message);
+        }
+        else res.status(200).json(element);
+    });
 }
 
-exports.getOneElement = function (req, res) {
-    element.elementSvc.findElementByTitol (req, res);
-    if (!stat) res.status(500).send(err.message);
-    else res.status(200);
+exports.getElementByTitol = function (req, res) {
+    var elem = elementSvc.findElementByTitol (req.params.titol, function(err,elem){;    
+        if (err) {
+            res.status(500).send(err.message);
+        }
+        else res.status(200).json(elem);
+    });
 }
 
 exports.getAllElements = function (req,res){
-    
+
 }
 
 exports.deleteElement = function (req, res) {

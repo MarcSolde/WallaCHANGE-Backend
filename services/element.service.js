@@ -30,8 +30,7 @@ exports.saveElement = function(element, callback) {
 }
 
 exports.findElementByTitol = function (elementTitol, callback) {
-    var query = element.find({ 'titol': elementTitol });
-    query.exec(callback (err, element));
+    element.find({titol: elementTitol}, function(err, elem){ callback(err,elem) });
 }
 
 exports.deleteElement = function (req, res) {
