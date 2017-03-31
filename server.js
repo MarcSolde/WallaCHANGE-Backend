@@ -4,8 +4,8 @@ var express = require("express"),
     methodOverride = require("method-override"),
     mongoose = require('mongoose');
 
-var config = require('./config');
-var jwt = require('jsonwebtoken');
+var config = require('./config/config')
+var jwt = require('jsonwebtoken')
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

@@ -11,6 +11,7 @@ router.use(function (req, res, next) {
 
 router.post('/addUser', userCtrl.addUser)
 router.post('/login', auth.login)
+router.post('/loginFB', auth.loginFB)
 router.use(authCtrl.checkToken)
 //Auth needed
 router.delete('/deleteUser/:nom_user', userCtrl.deleteUser)

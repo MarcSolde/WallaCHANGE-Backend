@@ -12,6 +12,7 @@ var userSchema = new mongoose.Schema({
     path: {
         type: String,
         default: ''
+        
     },
     localitat: {
         type: String,
@@ -24,6 +25,18 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    facebook: [
+        {
+            id: String, 
+            name: String,
+        }
+    ],
+    twitter: [
+        {
+            id: String, 
+            name: String
+        }
+    ]
 
 })
 
