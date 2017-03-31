@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var usuari = mongoose.model('usuari');
-'use strict';
-var crypto = require('crypto');
+var mongoose = require("mongoose")
+var usuari = mongoose.model('usuari')
+'use strict'
+var crypto = require('crypto')
 
 var genRandomString = function(length){
     return crypto.randomBytes(Math.ceil(length/2))
@@ -46,16 +46,16 @@ exports.createUser = function (req) {
 }
 
 /*exports.saveUser = function (user, res) {
-    user.save(function (err, user) {
-        console.log("asddsa777777")
-        if (err) {
-            console.log("aaa "+typeof (err))
-            return err
-        }
-        else return true
-    }) ///Per arreglar, JS promises TODO
-    console.log("asddsa")
-}*/
+ user.save(function (err, user) {
+ console.log("asddsa777777")
+ if (err) {
+ console.log("aaa "+typeof (err))
+ return err
+ }
+ else return true
+ }) ///Per arreglar, JS promises TODO
+ console.log("asddsa")
+ }*/
 
 exports.saveUser = function (user, callback) {
     user.save(function (err, user) {

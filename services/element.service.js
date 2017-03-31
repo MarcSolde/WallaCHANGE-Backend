@@ -6,7 +6,7 @@ var element = mongoose.model('element');
 'use strict'
 
 exports.createElement = function (req) {
-    var elem = new element ({
+    var elem = new element({
         titol: req.body.titol,
         descripcio: req.body.descripcio,
         imatges: req.body.imatges,
@@ -19,14 +19,16 @@ exports.createElement = function (req) {
         coordenades: req.body.coordenades,
     })
 
+    console.log(elem);
+
     return elem;
 }
 
-exports.saveElement = function(element, res) {
-    /*element.save(function (err, element) {
-       if (err) return res.status(500).send(err.message);
-       res.status(200).json(element); //have no idea of what I'm doing
-    });*/
+exports.saveElement = function(element, callback) {
+    console.log(element);
+    element.save(function (err, element) {
+        callback(err, element);
+    })
 }
 
 exports.deleteElement = function (req, res) {

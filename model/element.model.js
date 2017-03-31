@@ -1,5 +1,5 @@
 
-mongoose = require('mongoose')
+mongoose = require('mongoose');
 
 var elementSchema = new mongoose.Schema({
     titol: String,
@@ -15,7 +15,7 @@ var elementSchema = new mongoose.Schema({
     es_temporal: Boolean,
     tags: [String],
     comentaris: [{
-        comentari: String,
+        textComentari: String,
         usuari: String
     }],
     coordenades: {
