@@ -6,8 +6,6 @@ var element = mongoose.model('element');
 'use strict'
 
 exports.createElement = function (req) {
-    //var temp = false;
-    //if (req.body.es_temporal == "true") temp = true;
     var elem = new element({
         titol: req.body.titol,
         descripcio: req.body.descripcio,
@@ -27,6 +25,7 @@ exports.createElement = function (req) {
 }
 
 exports.saveElement = function(element, callback) {
+    console.log(element);
     element.save(function (err, element) {
         callback(err, element);
     })
