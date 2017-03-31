@@ -74,6 +74,45 @@ exports.loginFB = function(id, name, callback) {
     
 }
 
+exports.loginFB = function(id, name, callback) {
+    usuari.findOne({nom_user: id}, function (err, user){
+        if (err) 
+            throw err
+        if (!user) {
+            var user = new usuari ({
+                nom: name,
+                nom_user: name,
+                password: id,
+                twitter: [
+                    {
+                        id: id,
+                        name: name
+                    }
+                ]
+            })
+
+            userSvc.saveUser(user, function(err, user) {
+                if (err) {
+                    callback(err, user)
+                }
+                else {
+                    token = jwt.sign(user, config.secret, {
+                        expiresIn: 1440
+                    })
+                    callback(err, token)
+                }
+            })
+        }
+        else {
+            token = jwt.sign(user, config.secret, {
+                expiresIn: 1440
+            })
+            callback(null, token)
+        }
+    })
+    
+}
+
 exports.checkToken = function (req, res, next) {
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 

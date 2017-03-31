@@ -30,6 +30,12 @@ var userSchema = new mongoose.Schema({
             id: String, 
             name: String,
         }
+    ],
+    twitter: [
+        {
+            id: String, 
+            name: String
+        }
     ]
 
 })
