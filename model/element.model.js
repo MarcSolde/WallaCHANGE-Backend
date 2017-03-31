@@ -7,7 +7,6 @@ var elementSchema = new mongoose.Schema({
     imatges: [String],
     nom_user: {
         type: String,
-        unique: true,
         required: true
     },
     data_publicacio: Date,
