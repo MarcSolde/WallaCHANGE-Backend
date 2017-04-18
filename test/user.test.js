@@ -73,28 +73,36 @@ describe('User', function() {
 	describe('#deleteUserFunctionalityTesting', function(){
 		var authToken = null
 
-		before(function(done) {
-			chai.request(app)
-				.post('/login')
-				.send({
-					nom_user: 'default'
-				})
-				.end(function(err, res) {
-					authToken = res.body.token
-					done()
-				})
-		})
 		it('should delete the user properly', function(done) {
 			chai.request(app)
-				.delete('/deleteUser/default')
+				.post('/addUser')
 				.send({
-					token: authToken
-				})
-				.end(function(err, res) {
-					chai.expect(err).to.be.null
-					chai.expect(res).to.be.null
-					chai.expect(res).to.have.status(200)
-				})
+					nom: "Pepito Grillo",
+					nom_user: "CCC",
+					password: "password"
+					})
+				.end(function (err, res){
+					chai.request(app)
+						.post('/login')
+						.send({
+							nom_user: 'CCC',
+							password: 'password'
+						})
+						.end(function(err, res) {
+							authToken = res.body.token
+							chai.request(app)
+								.delete('/deleteUser/CCC')
+								.send({
+									token: authToken
+								})
+								.end(function(err, res) {
+									chai.expect(err).to.be.null
+									chai.expect(res).not.to.be.null
+									chai.expect(res).to.have.status(200)
+									done()
+								})
+						})
+					})
 		})
 	})
 }) 
