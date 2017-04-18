@@ -64,3 +64,22 @@ exports.deleteUser = function (req, res) {
 exports.login = function (password, salt) {
     return sha512(password, salt)
 }
+
+exports.updateUser = function(req, callback) {
+    usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
+        if (req.body.password) {
+            var pwdHash= saltHashPassword(req.body.password)
+            user.password_hash = pwdHash.passwordData
+            user.salt = pwdHash.salt
+        }
+        if (req.body.path) user.path = req.body.path
+        if (req.body.localitat) user.localitat = req.body.localitat
+        if (req.body.preferencies)user.preferencies = req.body.preferencies
+        if (req.body.productes)user.productes = req.body.productes
+        if (req.body.intercanvis)user.intercanvis = req.body.intercanvis
+        if (req.body.reputacio)user.reputacio = req.body.reputacio
+        
+        callback(user);
+    })
+    
+}
