@@ -1,4 +1,4 @@
-/*var mongoose = require("mongoose")
+/* var mongoose = require("mongoose")
  var usuari = mongoose.model('usuari')
  'use strict'
  var crypto = require('crypto')
@@ -8,7 +8,7 @@
 
 var userSvc = require('../services/user.service')
 
-/*exports.addUser = function (req, res) {
+/* exports.addUser = function (req, res) {
  var usuari = userSvc.createUser(req)
  var estatSvc = userSvc.saveUser(usuari)
  if (typeof(estatSvc) == typeof({a:"a", b:"b"})) {
@@ -16,26 +16,23 @@ var userSvc = require('../services/user.service')
  res.status(500).send(estatSvc.message)
  }
  else res.status(200).json(usuari)
- }*/
+ } */
 
 exports.addUser = function (req, res) {
-    var usuari = userSvc.createUser(req)
-    var estatSvc = userSvc.saveUser(usuari, function (err, nErr) {
-        if (err) {
-            console.log("hola")
-            res.status(500).send(err.message)
-        }
-        else res.status(200).json(usuari)
-    })
-
-
+  var usuari = userSvc.createUser(req)
+  userSvc.saveUser(usuari, function (err, nErr) {
+    if (err) {
+      console.log('hola')
+      res.status(500).send(err.message)
+    } else res.status(200).json(usuari)
+  })
 }
 
 exports.deleteUser = function (req, res) {
-    userSvc.deleteUser(userSvc.findUser(req), function(err) {
-        if (err) res.status(500).send(err.message)
-        else res.status(200).send()
-    })
+  userSvc.deleteUser(userSvc.findUser(req), function (err) {
+    if (err) res.status(500).send(err.message)
+    else res.status(200).send()
+  })
 }
 
 exports.updateUser = function (req, res) {
@@ -49,8 +46,9 @@ exports.updateUser = function (req, res) {
         })
     })
     
+
 }
 
 exports.login = function (req, res) {
-    userSvc.login(req, res)
+  userSvc.login(req, res)
 }
