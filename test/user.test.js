@@ -91,16 +91,63 @@ describe('User', function () {
   chai.request(app)
 								.delete('/deleteUser/CCC')
 								.send({
-  token: authToken
-})
-								.end(function (err, res) {
-  chai.expect(err).to.be.null
-  chai.expect(res).not.to.be.null
-  chai.expect(res).to.have.status(200)
-  done()
-})
-})
-})
-    })
-  })
-})
+									token: authToken
+								})
+								.end(function(err, res) {
+									chai.expect(err).to.be.null
+									chai.expect(res).not.to.be.null
+									chai.expect(res).to.have.status(200)
+									done()
+								})
+						})
+					})
+		})
+	})
+
+	describe('#updateUserFunctionalityTesting', function() {
+		var authToken = null
+
+		it('should update the user properly',function(done){
+			chai.request(app)
+				.post('/addUser')
+				.send({
+					nom: "Pepito Grillo",
+					nom_user: "CCC",
+					password: "password"
+					})
+				.end(function (err, res){
+					chai.request(app)
+						.post('/login')
+						.send({
+							nom_user: 'CCC',
+							password: 'password'
+						})
+						.end(function(err, res) {
+							authToken=res.body.token
+							chai.request(app)
+								.put('/updateUser/CCC')
+								.send({
+									token: authToken,
+									localitat: 'Barcelona'
+								})
+								.end(function(err, res) {
+									chai.expect(err).to.be.null
+									chai.expect(res).not.to.be.null
+									chai.expect(res).to.have.status(200)
+									chai.expect(res).to.have.property('body')
+									chai.expect(res.body).to.have.property('nom')
+									chai.expect(res.body.nom).to.equal('Pepito Grillo')
+									chai.expect(res.body).to.have.property('nom_user')
+									chai.expect(res.body.nom_user).to.equal('CCC')
+									chai.expect(res.body).to.have.property('localitat')
+									chai.expect(res.body.localitat).to.equal('Barcelona')
+									done()
+								})
+						})
+					})
+				
+		})
+	})
+
+}) 
+

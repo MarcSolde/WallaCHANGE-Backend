@@ -36,27 +36,17 @@ exports.deleteUser = function (req, res) {
 }
 
 exports.updateUser = function (req, res) {
-  console.log('PUT')
-  console.log(req.body)
+    console.log("PUT")
 
-  if (req.body.password) var pwdHash = saltHashPassword(req.body.password)
-  usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
-    if (req.body.password) {
-      user.password_hash = pwdHash.passwordData
-      user.salt = pwdHash.salt
-    }
-    if (req.body.path) user.path = req.body.path
-    if (req.body.localitat) user.localitat = req.body.localitat
-    if (req.body.preferencies)user.preferencies = req.body.preferencies
-    if (req.body.productes)user.productes = req.body.productes
-    if (req.body.intercanvis)user.intercanvis = req.body.intercanvis
-    if (req.body.reputacio)user.reputacio = req.body.reputacio
-
-    user.save(function (err) {
-      if (err) return res.status(500).send(err.message)
-      res.status(200).jsonp(user)
+    userSvc.updateUser(req, function(usuari) {
+        console.log(usuari)
+        userSvc.saveUser(usuari, function(err){
+            if (err) res.status(500).send(err.message)
+            else res.status(200).json(usuari)
+        })
     })
-  })
+    
+
 }
 
 exports.login = function (req, res) {

@@ -14,5 +14,6 @@ router.post('/loginFB', auth.loginFB)
 router.use(authCtrl.checkToken)
 // Auth needed
 router.delete('/deleteUser/:nom_user', userCtrl.deleteUser)
+router.put('/updateUser/:nom_user', userCtrl.updateUser)
 
 module.exports = router
