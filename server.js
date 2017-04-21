@@ -11,6 +11,10 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(methodOverride())
 
+
+var userModel = require('./model/user.model');	
+var elemModel = require('./model/element.model');
+
 var router = express.Router()
 
 app.use('/', require('./routes/user.route'))
