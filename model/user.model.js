@@ -25,12 +25,7 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    facebook: [
-        {
-            id: String, 
-            name: String,
-        }
-    ],
+    facebookId: String,
     twitter: [
         {
             id: String, 

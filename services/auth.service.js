@@ -2,6 +2,7 @@ var jwt = require('jsonwebtoken')
 var usuari = mongoose.model('usuari')
 var userSvc = require('./user.service')
 var config = require('../config/config')
+var https = require('https')
 'use strict'
 
 
@@ -34,82 +35,58 @@ var login = function (req, res) {
     })
 } 
 
-exports.loginFB = function(id, name, callback) {
-    usuari.findOne({nom_user: id}, function (err, user){
-        if (err) 
-            throw err
-        if (!user) {
-            var user = new usuari ({
-                nom: name,
-                nom_user: id,
-                password: id,
-                facebook: [
-                    {
-                        id: id,
-                        name: name
+exports.loginFB = function(token, id, callback) {
+
+    var options = {
+        //https://
+        host: 'graph.facebook.com',
+        path: '/me?access_token='+token
+    }
+
+    https.request(options, function(response) {
+        var str = ''
+        
+        response.on('data', function (chunk) {
+           str += chunk;
+        });
+
+        response.on('end', function () {
+            var json = JSON.parse(str)
+            if (json.id === id) {
+                usuari.findOne({facebookId: id}, function (err, user){
+                    if (err) 
+                        callback(err, null)
+                    if (!user) {
+                        var user = new usuari ({
+                            nom: json.name,
+                            nom_user: json.name,
+                            facebookId: id
+                        })
+
+                        userSvc.saveUser(user, function(err, user) {
+                            if (err) {
+                                callback(err, user)
+                            }
+                            else {
+                                token = jwt.sign(user, config.secret, {
+                                    expiresIn: 1440
+                                })
+                                callback(err, token)
+                            }
+                        })
                     }
-                ]
-            })
-
-            //var user = userSvc.createUser(user)
-            userSvc.saveUser(user, function(err, user) {
-                if (err) {
-                    callback(err, user)
-                }
-                else {
-                    token = jwt.sign(user, config.secret, {
-                        expiresIn: 1440
-                    })
-                    callback(err, token)
-                }
-            })
-        }
-        else {
-            token = jwt.sign(user, config.secret, {
-                expiresIn: 1440
-            })
-            callback(null, token)
-        }
-    })
-    
-}
-
-exports.loginFB = function(id, name, callback) {
-    usuari.findOne({nom_user: id}, function (err, user){
-        if (err) 
-            throw err
-        if (!user) {
-            var user = new usuari ({
-                nom: name,
-                nom_user: name,
-                password: id,
-                twitter: [
-                    {
-                        id: id,
-                        name: name
+                    else {
+                        token = jwt.sign(user, config.secret, {
+                            expiresIn: 1440
+                        })
+                        
+                        callback(null, token)
                     }
-                ]
-            })
+                })
+            }
 
-            userSvc.saveUser(user, function(err, user) {
-                if (err) {
-                    callback(err, user)
-                }
-                else {
-                    token = jwt.sign(user, config.secret, {
-                        expiresIn: 1440
-                    })
-                    callback(err, token)
-                }
-            })
-        }
-        else {
-            token = jwt.sign(user, config.secret, {
-                expiresIn: 1440
-            })
-            callback(null, token)
-        }
-    })
+        });   
+    }).end()   
     
 }
 
