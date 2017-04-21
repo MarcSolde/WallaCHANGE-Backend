@@ -52,13 +52,14 @@ exports.saveUser = function (user, callback) {
     })
 }
 
-exports.deleteUser = function (req, res) {
-    usuari.findOne({nom_user: req.params.nom_user}, function(err, user) {
-        user.remove(function (err) {
-            if (err) return res.status(500).send(err.message)
-            res.status(200).send()
-        })
+exports.deleteUser = function (user, callback, res) {
+    user.remove(function (err) {
+        callback(err)
     })
+}
+
+exports.findUser = function (req) {
+    return usuari.findOne({nom_user: req.params.nom_user})
 }
 
 exports.login = function (password, salt) {

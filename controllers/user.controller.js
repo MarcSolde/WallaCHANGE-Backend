@@ -32,7 +32,10 @@ exports.addUser = function (req, res) {
 }
 
 exports.deleteUser = function (req, res) {
-    userSvc.deleteUser(req, res)
+    userSvc.deleteUser(userSvc.findUser(req), function(err) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).send()
+    })
 }
 
 exports.updateUser = function (req, res) {

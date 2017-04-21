@@ -150,4 +150,5 @@ describe('User', function() {
 				
 		})
 	})
+
 }) 
