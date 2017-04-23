@@ -11,9 +11,8 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(methodOverride())
 
-
-var userModel = require('./model/user.model');	
-var elemModel = require('./model/element.model');
+var userModel = require('./model/user.model')
+var elemModel = require('./model/element.model')
 
 var router = express.Router()
 
@@ -24,8 +23,8 @@ app.use(router)
 
 var Mongodb
 
-if (process.argv[2] === 'docker') Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
-else Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
+if (process.argv[2] === 'docker') Mongodb = 'mongodb://localhost/pesDB'
+else Mongodb = 'mongodb://localhost/pesDB'
 
 mongoose.connect(Mongodb, function (err, res) {
   if (err) {
