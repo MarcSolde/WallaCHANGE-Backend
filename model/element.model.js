@@ -4,7 +4,10 @@ mongoose = require('mongoose');
 var elementSchema = new mongoose.Schema({
     titol: String,
     descripcio: String,
-    imatges: [String],
+    imatges: [{
+        path: String,
+        uid: String //check how to generate uids
+    }],
     nom_user: {
         type: String,
         required: true
@@ -14,8 +17,9 @@ var elementSchema = new mongoose.Schema({
     es_temporal: Boolean,
     tags: [String],
     comentaris: [{
-        textComentari: String,
-        usuari: String
+        text: String,
+        nom_user: String,
+        uid: String
     }],
     coordenades: {
         x: Number,
