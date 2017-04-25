@@ -45,8 +45,30 @@ exports.updateUser = function (req, res) {
             else res.status(200).json(usuari)
         })
     })
-    
+}
 
+exports.getUser = function(req, res) {
+  userSvc.getUser(req, function(err, user) {
+    if (err) res.status(500).send(err.message)
+    else {
+      user.salt = undefined
+      user.password_hash = undefined
+      res.status(200).send(user)
+    }
+  })
+}
+
+exports.getAllUsers = function(req, res) {
+  userSvc.getAllUsers(function(err, llistaUsers) {
+    if (err) res.status(500).send(err.message)
+    else {
+      for (var i = llistaUsers.length - 1; i >= 0; i--) {
+        llistaUsers[i].salt = undefined
+        llistaUsers[i].password_hash = undefined
+      }
+      res.status(200).send(llistaUsers)
+    }
+  })
 }
 
 exports.login = function (req, res) {

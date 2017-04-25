@@ -81,6 +81,17 @@ exports.updateUser = function(req, callback) {
         
         callback(user);
     })
-    
+}
+
+exports.getUser = function(req, callback) {
+  usuari.findOne({nom_user: req.params.nom_user}, function(err, user) {
+    callback(err, user)
+  })
+}
+
+exports.getAllUsers = function(callback) {
+  usuari.find({}, function(err, llista) {
+    callback(err, llista)
+  })
 }
 
