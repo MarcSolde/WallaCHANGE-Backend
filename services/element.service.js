@@ -6,7 +6,7 @@ var element = mongoose.model('element')
 'use strict'
 
 exports.createElement = function (req) {
-  var elem = new element({
+  var elem = new element ({
     titol: req.body.titol,
     descripcio: req.body.descripcio,
     imatges: req.body.imatges,
