@@ -2,6 +2,18 @@ var mongoose = require('mongoose')
 var usuari = mongoose.model('usuari')
 'use strict'
 var crypto = require('crypto')
+var multer = require('multer')
+
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, '../uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, Date.now()+file.originalname );
+  }
+});
+
+var upload = multer({ storage : storage}).single('userPhoto');
 
 var genRandomString = function (length) {
   return crypto.randomBytes(Math.ceil(length / 2))
@@ -95,3 +107,8 @@ exports.getAllUsers = function(callback) {
   })
 }
 
+exports.afegirImatge = function(req, res, callback) {
+  upload(req,res, function(err) {
+    callback(err)
+  })
+}
