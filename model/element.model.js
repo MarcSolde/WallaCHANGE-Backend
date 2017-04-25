@@ -1,12 +1,11 @@
 
-mongoose = require('mongoose');
+mongoose = require('mongoose')
 
 var elementSchema = new mongoose.Schema({
     titol: String,
     descripcio: String,
     imatges: [{
-        path: String,
-        uid: String //check how to generate uids
+        path: String
     }],
     nom_user: {
         type: String,
@@ -18,13 +17,12 @@ var elementSchema = new mongoose.Schema({
     tags: [String],
     comentaris: [{
         text: String,
-        nom_user: String,
-        uid: String
+        nom_user: String
     }],
     coordenades: {
         x: Number,
         y: Number
     },
-});
+})
 
-module.exports = mongoose.model('element', elementSchema);
+module.exports = mongoose.model('element', elementSchema)
