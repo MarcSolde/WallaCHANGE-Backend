@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "SET NODE_ENV=dev && node server.js",
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "mocha --timeout 10000"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
