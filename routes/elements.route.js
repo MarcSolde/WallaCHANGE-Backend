@@ -11,11 +11,6 @@ router.get('/element/:id', elemCtrl.getOneElement) //get one element
 router.post('/element/', elemCtrl.addElement) //create element
 
 /* Routes that can be accessed only by authenticated & authorized users*/
-router.put('/owner/element/:id', elemCtrl.updateElement) //update element
-router.put('/owner/element/:id/comment', elemCtrl.addComment) //add comment to element
-router.put('/owner/element/:id/image', elemCtrl.addImage) //add images to element
-router.put('/owner/element/:id/delete/comment', elemCtrl.deleteComment) //delete comment
-router.put('/owner/element/:id/delete/image', elemCtrl.deleteImage) //delete images
 router.delete('/owner/element/:id', elemCtrl.deleteElement) //delete element
 // User needs to be owner to modify or delete elements
 
