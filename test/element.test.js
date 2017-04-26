@@ -1,18 +1,17 @@
 process.env.NODE_ENV = 'test'
 'use strict'
 
-var chai = require('chai'),
-	 chaiHttp = require('chai-http')
+var chai = require('chai')
+var chaiHttp = require('chai-http')
 
 chai.use(chaiHttp)
 
 var expect = chai.expect
-var request = require('request')
 var mongoose = require('mongoose')
 var element = require('../model/element.model')
 var element = mongoose.model('element')
 var user = require('../model/user.model')
-var user = mongoose.model('user')
+var user = mongoose.model('usuari')
 let app = require('../server')
 
 describe('Element', function () {
@@ -20,28 +19,23 @@ describe('Element', function () {
 	element.collection.drop()
 	user.collection.drop()
 
-	afterEach(function (done) {
-		element.collection.drop()
-		user.collection.drop()
-	})
-
 	describe('Element creation', function () {
 		var authToken = null
 
 		it('saves new Element', function (done) {
-			request(app).post('/addUser').send({
+			chai.request(app).post('/addUser').send({
 				nom: 'Pepito Grillo',
 				nom_user: 'CCC',
 				password: 'password'
 			})
 			.end(function (err, res) {
-				request(app).post('/login').send({
+				chai.request(app).post('/login').send({
 					nom_user: 'CCC',
 					password: 'password'
 				})
 				.end(function (err, res) {
 					authToken = res.body.token
-					request(app).post('/api/element').send({
+					chai.request(app).post('/api/element').send({
 						titol: 'Bicicleta',
 						descripcio: 'bicicleta roja',
 						nom_user: 'CCC',
@@ -72,19 +66,19 @@ describe('Element', function () {
 		var authToken = null
 
 		it('deletes Element', function () {
-			request(app).post('/addUser').send({
+			chai.request(app).post('/addUser').send({
 				nom: 'Pepito Grillo',
 				nom_user: 'CCC',
 				password: 'password'
 			})
 			.end(function (err, res) {
-				request(app).post('/login').send({
+				chai.request(app).post('/login').send({
 					nom_user: 'CCC',
 					password: 'password'
 				})
 				.end(function (err, res) {
 					authToken = res.body.token
-					request(app).delete('/api/element/'+elemID).send({
+					chai.request(app).delete('/api/element/'+elemID).send({
 						token: authToken
 					})
 					.end(function (err, res) {

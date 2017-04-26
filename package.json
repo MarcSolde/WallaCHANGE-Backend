@@ -15,8 +15,7 @@
     "method-override": "^2.3.7",
     "mocha": "^3.3.0",
     "mongoose": "^4.9.1",
-    "request": "^2.81.0",
-    "uuid": "^3.0.1"
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "standard": "^9.0.2"
