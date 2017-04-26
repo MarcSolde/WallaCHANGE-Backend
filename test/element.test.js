@@ -11,7 +11,7 @@ var request = require('request')
 var mongoose = require('mongoose')
 var element = require('../model/element.model')
 var element = mongoose.model('element')
-var user = require.('../model/user.model')
+var user = require('../model/user.model')
 var user = mongoose.model('user')
 let app = require('../server')
 
@@ -29,7 +29,7 @@ describe('Element', function () {
 		var authToken = null
 
 		it('saves new Element', function (done) {
-			request.(app).post('/addUser').send({
+			request(app).post('/addUser').send({
 				nom: 'Pepito Grillo',
 				nom_user: 'CCC',
 				password: 'password'
@@ -72,7 +72,7 @@ describe('Element', function () {
 		var authToken = null
 
 		it('deletes Element', function () {
-			request.(app).post('/addUser').send({
+			request(app).post('/addUser').send({
 				nom: 'Pepito Grillo',
 				nom_user: 'CCC',
 				password: 'password'
