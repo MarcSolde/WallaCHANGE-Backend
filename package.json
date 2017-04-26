@@ -3,15 +3,18 @@
   "version": "0.0.1",
   "scripts": {
     "start": "SET NODE_ENV=dev && node server.js",
-    "test": "mocha --timeout 10000"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
+    "chai": "^3.5.0",
     "crypto": "0.0.3",
     "express": "^4.15.2",
     "jsonwebtoken": "^7.3.0",
     "method-override": "^2.3.7",
+    "mocha": "^3.3.0",
     "mongoose": "^4.9.1",
+    "request": "^2.81.0",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
