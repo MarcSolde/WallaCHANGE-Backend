@@ -32,8 +32,6 @@ exports.getAllElements = function (req, res) {
 }
 
 exports.updateElement = function (req, res) {
-    console.log("PUT element")
-
     elementSvc.updateElement(req, function (element) {
         console.log(element)
         elementSvc.saveElement(element, function (err) {
@@ -44,8 +42,6 @@ exports.updateElement = function (req, res) {
 }
 
 exports.addComment = function (req, res) {
-    console.log("PUT comentari")
-
     elementSvc.addComment(req, function (element) {
         console.log(element)
         elementSvc.saveElement(element, function (err) {
@@ -56,8 +52,6 @@ exports.addComment = function (req, res) {
 }
 
 exports.addImage = function (req, res) {
-    console.log("PUT image")
-
     elementSvc.addImage(req, function (element) {
         console.log(element)
         elementSvc.saveElement(element, function (err) {

@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose')
 var element = mongoose.model('element')
+var mongo = require('mongodb')
 'use strict'
 
 exports.createElement = function (req) {
@@ -43,8 +44,11 @@ exports.deleteElement = function (req, res) {
 }
 
 exports.updateElement = function (req, callback) {
-    element.findOne({_id: req.params._id}, function (err, element) {
-        if (req.body.titol) element.titol = req.body.titol
+    var id = new mongo.ObjectID(req.params.id)
+    element.findOne({_id: id}, function (err, element) {
+        if (req.body.titol) {
+            element.titol = req.body.titol
+        }
         if (req.body.descripcio) element.descripcio = req.body.descripcio
         if (req.body.tipus_element) element.tipus_element = req.body.tipus_element
         if (req.body.es_temporal) element.es_temporal = req.body.es_temporal
@@ -57,8 +61,9 @@ exports.updateElement = function (req, callback) {
 }
 
 exports.addComment = function (req, callback) {
-    element.findOne({_id: req.params._id}, function (err, element) {
-        var comentari = {text: req.body.comentaris['text'], nom_user: req.body.comentaris['nom_user']}
+    var id = new mongo.ObjectID(req.params.id)
+    element.findOne({_id: id}, function (err, element) {
+        var comentari = {text: req.body.text, nom_user: req.body.nom_user}
         element.comentaris.push(comentari)
 
         callback(element)
@@ -66,15 +71,18 @@ exports.addComment = function (req, callback) {
 }
 
 exports.deleteComment = function (req, res) {
-    element.findOne({_id: req.params._id}, function(err, element) {
+    var id = new mongo.ObjectID(req.params.id)
+    var o_id = new mongo.ObjectID(req.params.c_id)
+    element.findOne({_id: id}, function(err, element) {
         element.update(
             {},
-            { $pull: {"comentaris": {"_id": req.body._id}}})
+            { $pull: {"comentaris": {"_id": o_id}}})
     })
 }
 
 exports.addImage = function (req, callback) {
-    element.findOne({_id: req.params._id}, function (err, element) {
+    var id = new mongo.ObjectID(req.params.id)
+    element.findOne({_id: id}, function (err, element) {
         for (var i in req.body.imatges) {
             var image = {path: req.body.imatges[i]}
             elem.imatges.push(image)
@@ -85,7 +93,8 @@ exports.addImage = function (req, callback) {
 }
 
 exports.deleteImage = function (req, res) {
-    element.findOne({_id: req.params._id}, function (err, element) {
+    var id = new mongo.ObjectID(req.params.id)
+    element.findOne({_id: id}, function (err, element) {
         for (var i in req.body._id) {
             element.update(
                 {},
