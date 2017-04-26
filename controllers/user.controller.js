@@ -81,3 +81,13 @@ exports.afegirImatge = function(req, res) {
 exports.login = function (req, res) {
   userSvc.login(req, res)
 }
+
+exports.getImatge = function(req, res) {
+  userSvc.getImatge(req, function(err, pathProfilePic) {
+    if (err) res.status(500).send(err.message)
+    else {
+      res.status(200)
+      res.sendFile(pathProfilePic)
+    }
+  })
+}
