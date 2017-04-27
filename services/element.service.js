@@ -42,3 +42,10 @@ exports.deleteElement = function (req, res) {
     })
 }
 
+exports.findElementByTitol = function (elementTitol, callback) {
+  element.find({titol: elementTitol}, function (err, elem) { callback(err, elem) })
+}
+
+exports.updateElement = function (req, res) {
+    // does something nice
+}

@@ -1,4 +1,4 @@
-mongoose = require('mongoose')
+var mongoose = require('mongoose')
 
 var userSchema = new mongoose.Schema({
     nom: String,
@@ -25,18 +25,14 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    facebook: [
-        {
-            id: String, 
-            name: String,
-        }
-    ],
+    facebookId: String,
     twitter: [
         {
             id: String, 
             name: String
         }
     ]
+
 
 })
 

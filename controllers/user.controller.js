@@ -1,4 +1,4 @@
-/*var mongoose = require("mongoose")
+/* var mongoose = require("mongoose")
  var usuari = mongoose.model('usuari')
  'use strict'
  var crypto = require('crypto')
@@ -8,7 +8,7 @@
 
 var userSvc = require('../services/user.service')
 
-/*exports.addUser = function (req, res) {
+/* exports.addUser = function (req, res) {
  var usuari = userSvc.createUser(req)
  var estatSvc = userSvc.saveUser(usuari)
  if (typeof(estatSvc) == typeof({a:"a", b:"b"})) {
@@ -16,52 +16,61 @@ var userSvc = require('../services/user.service')
  res.status(500).send(estatSvc.message)
  }
  else res.status(200).json(usuari)
- }*/
+ } */
 
 exports.addUser = function (req, res) {
-    var usuari = userSvc.createUser(req)
-    var estatSvc = userSvc.saveUser(usuari, function (err, nErr) {
-        if (err) {
-            console.log("hola")
-            res.status(500).send(err.message)
-        }
-        else res.status(200).json(usuari)
-    })
-
-
+  var usuari = userSvc.createUser(req)
+  userSvc.saveUser(usuari, function (err, nErr) {
+    if (err) {
+      console.log('hola')
+      res.status(500).send(err.message)
+    } else res.status(200).json(usuari)
+  })
 }
 
 exports.deleteUser = function (req, res) {
-    userSvc.deleteUser(req, res)
+  userSvc.deleteUser(userSvc.findUser(req), function (err) {
+    if (err) res.status(500).send(err.message)
+    else res.status(200).send()
+  })
 }
 
 exports.updateUser = function (req, res) {
     console.log("PUT")
-    console.log(req.body)
 
-    if (req.body.password) var pwdHash= saltHashPassword(req.body.password);
-    usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
-
-        if (req.body.password) {
-            user.password_hash = pwdHash.passwordData
-            user.salt = pwdHash.salt
-        }
-        if (req.body.path) user.path = req.body.path
-        if (req.body.localitat) user.localitat = req.body.localitat
-        if (req.body.preferencies)user.preferencies = req.body.preferencies
-        if (req.body.productes)user.productes = req.body.productes
-        if (req.body.intercanvis)user.intercanvis = req.body.intercanvis
-        if (req.body.reputacio)user.reputacio = req.body.reputacio
-
-        user.save(function (err) {
-            if (err) return res.status(500).send(err.message)
-            res.status(200).jsonp(user)
-
+    userSvc.updateUser(req, function(usuari) {
+        console.log(usuari)
+        userSvc.saveUser(usuari, function(err){
+            if (err) res.status(500).send(err.message)
+            else res.status(200).json(usuari)
         })
     })
+}
 
+exports.getUser = function(req, res) {
+  userSvc.getUser(req, function(err, user) {
+    if (err) res.status(500).send(err.message)
+    else {
+      user.salt = undefined
+      user.password_hash = undefined
+      res.status(200).send(user)
+    }
+  })
+}
+
+exports.getAllUsers = function(req, res) {
+  userSvc.getAllUsers(function(err, llistaUsers) {
+    if (err) res.status(500).send(err.message)
+    else {
+      for (var i = llistaUsers.length - 1; i >= 0; i--) {
+        llistaUsers[i].salt = undefined
+        llistaUsers[i].password_hash = undefined
+      }
+      res.status(200).send(llistaUsers)
+    }
+  })
 }
 
 exports.login = function (req, res) {
-    userSvc.login(req, res)
+  userSvc.login(req, res)
 }
