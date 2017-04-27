@@ -71,6 +71,23 @@ exports.getAllUsers = function(req, res) {
   })
 }
 
+exports.afegirImatge = function(req, res) {
+  userSvc.afegirImatge(req,res,  function(err) {
+    if (err) res.status(500).send(err.message)
+    else res.status(200).send('Image uploaded')
+  })
+}
+
 exports.login = function (req, res) {
   userSvc.login(req, res)
+}
+
+exports.getImatge = function(req, res) {
+  userSvc.getImatge(req, function(err, pathProfilePic) {
+    if (err) res.status(500).send(err.message)
+    else {
+      res.status(200)
+      res.sendFile(pathProfilePic)
+    }
+  })
 }

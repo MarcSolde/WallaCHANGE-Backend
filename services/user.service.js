@@ -2,7 +2,20 @@ var mongoose = require('mongoose')
 var usuari = mongoose.model('usuari')
 'use strict'
 var crypto = require('crypto')
+var multer = require('multer')
+var path = require('path')
 
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads/profile');
+  },
+  filename: function (req, file, callback) {
+    console.log(file)
+    callback(null, Date.now()+'_'+file.originalname );
+  }
+});
+var upload = multer({ storage : storage}).single('avatar');
+  
 var genRandomString = function (length) {
   return crypto.randomBytes(Math.ceil(length / 2))
         .toString('hex')
@@ -95,3 +108,18 @@ exports.getAllUsers = function(callback) {
   })
 }
 
+exports.afegirImatge = function(req, res, callback) {
+  upload(req,res, function(err) {
+    usuari.findOne({nom_user: req.params.nom_user}, function(err, user){
+      user.path = req.file.path
+      user.save()
+    })
+    callback(err)
+  })
+}
+
+exports.getImatge = function(req, callback) {
+  usuari.findOne({nom_user: req.params.nom_user}, function(err, user) {
+    callback(err, path.join(__dirname,'/../', user.path))
+  })
+}
