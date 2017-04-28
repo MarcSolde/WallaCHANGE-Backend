@@ -24,8 +24,8 @@ app.use(router)
 
 var Mongodb
 
-if (process.argv[2] === 'docker') Mongodb = 'mongodb://localhost/pesDB'
-else Mongodb = 'mongodb://localhost/pesDB'
+if (process.argv[2] === 'docker') Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
+else Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
 
 mongoose.connect(Mongodb, function (err, res) {
   if (err) {
