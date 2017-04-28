@@ -19,6 +19,7 @@ var elementSchema = new mongoose.Schema({
         text: String,
         nom_user: String
     }],
+    localitat: String,
     coordenades: {
         x: Number,
         y: Number

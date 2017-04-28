@@ -16,7 +16,8 @@ exports.createElement = function (req) {
         es_temporal: req.body.es_temporal,
         tags: req.body.tags,
         comentaris: [],
-        coordenades: req.body.coordenades,
+        localitat: req.body.localitat,
+        coordenades: req.body.coordenades
     })
 
     for (var i in req.body.imatges) {
@@ -41,8 +42,16 @@ exports.deleteElement = function (req, callback) {
     })
 }
 
-exports.findElementByTitol = function (elementTitol, callback) {
-  element.find({titol: elementTitol}, function (err, elem) { callback(err, elem) })
+exports.findElementByTitolLocalitatPublicacio = function (filter, callback) {
+  element.find({titol: {'$regex': filter.titol}},
+  null,
+  {skip: 0, limit: 20, sort: {data_publicacio: -1}},
+  function (err, elem) { callback(err, elem) })
+}
+
+
+exports.findElementById = function (elemId, callback) {
+  element.findOne({_id: elemId}, function (err, elem) { callback(err, elem) })
 }
 
 exports.updateElement = function (req, res) {

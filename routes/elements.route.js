@@ -7,7 +7,8 @@ var elemCtrl = require('../controllers/element.controller')
 
 /* Routes that can be accessed only by authenticated users */
 router.get('/elements', elemCtrl.getAllElements) // get all elements
-router.get('/element/:titol', elemCtrl.getElementByTitol) // get elements with titol = :titol
+router.get('/element/:id', elemCtrl.getElementById) // get elements with titol = :titol
+//router.get('/element/:id', elemCtrl.getElementById) // get elements with titol = :titol
 router.post('/element/', elemCtrl.addElement) // create element
 
 /* Routes that can be accessed only by authenticated & authorized users */

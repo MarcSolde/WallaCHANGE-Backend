@@ -36,10 +36,17 @@ exports.getOneElement = function (req, res) {
     } else res.status(200).json(element)
   })
 }
-
+/*
 exports.getElementByTitol = function (req, res) {
   elementSvc.findElementByTitol(req.params.titol, function (err, elem) {
-    ;
+    if (err) {
+      res.status(500).send(err.message)
+    } else res.status(200).json(elem)
+  })
+}*/
+
+exports.getElementById = function (req, res) {
+  elementSvc.findElementById(req.params.id, function (err, elem) {
     if (err) {
       res.status(500).send(err.message)
     } else res.status(200).json(elem)
@@ -47,7 +54,16 @@ exports.getElementByTitol = function (req, res) {
 }
 
 exports.getAllElements = function (req, res) {
-
+  var filter = {
+    'titol': req.header('titol')
+    //'localitat': req.header('localitat'),
+    //'es_temporal': req.header('es_temporal')
+  }
+  elementSvc.findElementByTitolLocalitatPublicacio(filter, function (err, elem) {
+    if (err) {
+      res.status(500).send(err.message)
+    } else res.status(200).json(elem)
+  })
 }
 
 exports.updateElement = function (req, res) {
