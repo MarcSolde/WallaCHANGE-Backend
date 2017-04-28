@@ -123,3 +123,19 @@ exports.getImatge = function(req, callback) {
     callback(err, path.join(__dirname,'/../', user.path))
   })
 }
+
+exports.getUserBySearch = function(req, callback) {
+  usuari.aggregate(
+    [
+      {"$match": {"preferencies": req.headers['preferencies']}},
+      {"$unwind": "$preferencies"},
+      {"$group": {
+        "_id": "$_id", 
+        "nom_user": {"$first": "$nom_user"}
+      }}
+    ], 
+    function(err, llista) {
+      console.log(llista)
+      callback(err, llista)
+    })
+}

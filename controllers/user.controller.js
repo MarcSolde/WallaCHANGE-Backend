@@ -91,3 +91,16 @@ exports.getImatge = function(req, res) {
     }
   })
 }
+
+exports.getUserBySearch = function(req, res) {
+  userSvc.getUserBySearch(req, function(err, llistaUsers) {
+    if (err) res.status(500).send(err.message)
+    else {
+      for (var i = llistaUsers.length - 1; i >= 0; i--) {
+        llistaUsers[i].salt = undefined
+        llistaUsers[i].password_hash = undefined
+      }
+      res.status(200).send(llistaUsers)
+    }
+  })
+}
