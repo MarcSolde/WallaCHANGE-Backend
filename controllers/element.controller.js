@@ -20,7 +20,10 @@ exports.addElement = function (req, res) {
 }
 
 exports.deleteElement = function (req, res) {
-    elementSvc.deleteElement(req, res)
+    elementSvc.deleteElement(req, function (err) {
+      if (err) return res.status(500).send(err.message)
+      else res.status(200).send()
+    })
 
 }
 

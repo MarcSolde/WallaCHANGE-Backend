@@ -33,11 +33,10 @@ exports.saveElement = function(element, callback) {
     })
 }
 
-exports.deleteElement = function (req, res) {
+exports.deleteElement = function (req, callback) {
     element.findOne({_id: req.params._id}, function(err, element) {
         element.remove(function (err) {
-            if (err) return res.status(500).send(err.message)
-            res.status(200).send()
+            callback(err)
         })
     })
 }

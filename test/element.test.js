@@ -13,6 +13,8 @@ var element = mongoose.model('element')
 var user = require('../model/user.model')
 var user = mongoose.model('usuari')
 let app = require('../server')
+require('./user.test.js')
+//No borrar, s'encarrega de executar primer els tests de user i despres els de element
 
 describe('Element', function () {
 	var elemID = null
@@ -25,12 +27,12 @@ describe('Element', function () {
 		it('saves new Element', function (done) {
 			chai.request(app).post('/addUser').send({
 				nom: 'Pepito Grillo',
-				nom_user: 'CCC',
+				nom_user: 'CCC2',
 				password: 'password'
 			})
 			.end(function (err, res) {
 				chai.request(app).post('/login').send({
-					nom_user: 'CCC',
+					nom_user: 'CCC2',
 					password: 'password'
 				})
 				.end(function (err, res) {
@@ -38,7 +40,7 @@ describe('Element', function () {
 					chai.request(app).post('/api/element').send({
 						titol: 'Bicicleta',
 						descripcio: 'bicicleta roja',
-						nom_user: 'CCC',
+						nom_user: 'CCC2',
 						token: authToken
 					})
 					.end(function (err, res) {
@@ -51,7 +53,7 @@ describe('Element', function () {
 						expect(res.body).to.have.property('descripcio')
 						expect(res.body.descripcio).to.equal('bicicleta roja')
 						expect(res.body).to.have.property('nom_user')
-						expect(res.body.nom_user).to.equal('CCC')
+						expect(res.body.nom_user).to.equal('CCC2')
 						elemID = res.body._id
 						done()
 					})
@@ -68,12 +70,12 @@ describe('Element', function () {
 		it('deletes Element', function () {
 			chai.request(app).post('/addUser').send({
 				nom: 'Pepito Grillo',
-				nom_user: 'CCC',
+				nom_user: 'CCC2',
 				password: 'password'
 			})
 			.end(function (err, res) {
 				chai.request(app).post('/login').send({
-					nom_user: 'CCC',
+					nom_user: 'CCC2',
 					password: 'password'
 				})
 				.end(function (err, res) {
