@@ -9,6 +9,7 @@ router.use(function (req, res, next) {
 })
 
 router.post('/addUser', userCtrl.addUser)
+router.get('/user', userCtrl.getUserBySearch)
 router.get('/user/:nom_user', userCtrl.getUser)
 router.get('/allUsers', userCtrl.getAllUsers)
 router.get('/imatge/:nom_user', userCtrl.getImatge)

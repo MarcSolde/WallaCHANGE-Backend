@@ -214,5 +214,41 @@ describe('User', function () {
 					})
 				})
 		})
+
+		it('should get the elements based on the parametres in the headers', function(done) {
+			chai.request(app)
+				.post('/addUser')
+				.send({
+					nom: "Pepito Grillo",
+					nom_user: "CCC",
+					password: "password",
+					preferencies: ["A", "B"]
+					})
+				.end(function (err, res){
+					chai.request(app)
+					.post('/addUser')
+					.send({
+						nom: "Pepito Grillo",
+						nom_user: "BBB",
+						password: "password",
+						preferencies: ["A"]
+					})
+					.end(function (err, res){
+						chai.request(app)
+						.get('/user')
+						.set('preferencies', 'B')
+						.send()
+						.end(function(err, res) {
+							chai.expect(err).to.be.null
+							chai.expect(res).not.to.be.null
+							chai.expect(res).to.have.status(200)
+							chai.expect(res.body[0]).to.have.property('_id')
+							chai.expect(res.body[0]).to.have.property('nom_user')
+							chai.expect(res.body[0].nom_user).to.equal('CCC')
+							done()
+						})
+					})
+				})
+		})
 	}) 
 })
