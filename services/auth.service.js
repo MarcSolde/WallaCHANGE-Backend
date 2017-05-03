@@ -82,8 +82,12 @@ exports.loginFB = function(token, id, callback) {
                         token = jwt.sign(user, config.secret, {
                             expiresIn: 1440
                         })
-                        
-                        callback(null, token)
+                         
+                        callback(null, {
+                          success: true,
+                          message: 'token created and given',
+                          token: token
+                        })
                     }
                 })
             }
