@@ -36,19 +36,19 @@ exports.deleteUser = function (req, res) {
 }
 
 exports.updateUser = function (req, res) {
-    console.log("PUT")
+  console.log('PUT')
 
-    userSvc.updateUser(req, function(usuari) {
-        console.log(usuari)
-        userSvc.saveUser(usuari, function(err){
-            if (err) res.status(500).send(err.message)
-            else res.status(200).json(usuari)
-        })
+  userSvc.updateUser(req, function (usuari) {
+    console.log(usuari)
+    userSvc.saveUser(usuari, function (err) {
+      if (err) res.status(500).send(err.message)
+      else res.status(200).json(usuari)
     })
+  })
 }
 
-exports.getUser = function(req, res) {
-  userSvc.getUser(req, function(err, user) {
+exports.getUser = function (req, res) {
+  userSvc.getUser(req, function (err, user) {
     if (err) res.status(500).send(err.message)
     else {
       user.salt = undefined
@@ -58,8 +58,8 @@ exports.getUser = function(req, res) {
   })
 }
 
-exports.getAllUsers = function(req, res) {
-  userSvc.getAllUsers(function(err, llistaUsers) {
+exports.getAllUsers = function (req, res) {
+  userSvc.getAllUsers(function (err, llistaUsers) {
     if (err) res.status(500).send(err.message)
     else {
       for (var i = llistaUsers.length - 1; i >= 0; i--) {
@@ -71,8 +71,8 @@ exports.getAllUsers = function(req, res) {
   })
 }
 
-exports.afegirImatge = function(req, res) {
-  userSvc.afegirImatge(req,res,  function(err) {
+exports.afegirImatge = function (req, res) {
+  userSvc.afegirImatge(req, res, function (err) {
     if (err) res.status(500).send(err.message)
     else res.status(200).send('Image uploaded')
   })
@@ -82,8 +82,8 @@ exports.login = function (req, res) {
   userSvc.login(req, res)
 }
 
-exports.getImatge = function(req, res) {
-  userSvc.getImatge(req, function(err, pathProfilePic) {
+exports.getImatge = function (req, res) {
+  userSvc.getImatge(req, function (err, pathProfilePic) {
     if (err) res.status(500).send(err.message)
     else {
       res.status(200)
@@ -92,8 +92,8 @@ exports.getImatge = function(req, res) {
   })
 }
 
-exports.getUserBySearch = function(req, res) {
-  userSvc.getUserBySearch(req, function(err, llistaUsers) {
+exports.getUserBySearch = function (req, res) {
+  userSvc.getUserBySearch(req, function (err, llistaUsers) {
     if (err) res.status(500).send(err.message)
     else {
       for (var i = llistaUsers.length - 1; i >= 0; i--) {

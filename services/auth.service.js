@@ -34,59 +34,53 @@ var login = function (req, res) {
   })
 }
 
-exports.loginFB = function(token, id, callback) {
+exports.loginFB = function (token, id, callback) {
+  var options = {
+        // https://
+    host: 'graph.facebook.com',
+    path: '/me?access_token=' + token
+  }
 
-    var options = {
-        //https://
-        host: 'graph.facebook.com',
-        path: '/me?access_token='+token
-    }
+  https.request(options, function (response) {
+    var str = ''
 
-    https.request(options, function(response) {
-        var str = ''
-        
-        response.on('data', function (chunk) {
-           str += chunk;
-        });
+    response.on('data', function (chunk) {
+      str += chunk
+    })
 
-        response.on('end', function () {
-            var json = JSON.parse(str)
-            if (json.id === id) {
-                usuari.findOne({facebookId: id}, function (err, user){
-                    if (err) 
-                        callback(err, null)
-                    if (!user) {
-                        var user = new usuari ({
-                            nom: json.name,
-                            nom_user: json.name,
-                            facebookId: id
-                        })
+    response.on('end', function () {
+      var json = JSON.parse(str)
+      if (json.id === id) {
+        usuari.findOne({facebookId: id}, function (err, user) {
+          if (err) { callback(err, null) }
+          if (!user) {
+            var user = new usuari({
+              nom: json.name,
+              nom_user: json.name,
+              facebookId: id
+            })
 
-                        userSvc.saveUser(user, function(err, user) {
-                            if (err) {
-                                callback(err, user)
-                            }
-                            else {
-                                token = jwt.sign(user, config.secret, {
-                                    expiresIn: 1440
-                                })
-                                callback(err, token)
-                            }
-                        })
-                    }
-                    else {
-                        token = jwt.sign(user, config.secret, {
-                            expiresIn: 1440
-                        })
-                        
-                        callback(null, token)
-                    }
+            userSvc.saveUser(user, function (err, user) {
+              if (err) {
+                callback(err, user)
+              } else {
+                token = jwt.sign(user, config.secret, {
+                  expiresIn: 1440
                 })
-            }
+                callback(err, token)
+              }
+            })
+          } else {
+            token = jwt.sign(user, config.secret, {
+              expiresIn: 1440
+            })
 
-        });   
-    }).end()   
-    
+            callback(null, token)
+          }
+        })
+      }
+    })
+  }).end()
 }
 
 exports.checkToken = function (req, res, next) {

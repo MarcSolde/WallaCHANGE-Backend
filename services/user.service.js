@@ -5,17 +5,17 @@ var crypto = require('crypto')
 var multer = require('multer')
 var path = require('path')
 
-var storage =   multer.diskStorage({
+var storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, './uploads/profile');
+    callback(null, './uploads/profile')
   },
   filename: function (req, file, callback) {
     console.log(file)
-    callback(null, Date.now()+'_'+file.originalname );
+    callback(null, Date.now() + '_' + file.originalname)
   }
-});
-var upload = multer({ storage : storage}).single('avatar');
-  
+})
+var upload = multer({ storage: storage}).single('avatar')
+
 var genRandomString = function (length) {
   return crypto.randomBytes(Math.ceil(length / 2))
         .toString('hex')
@@ -75,42 +75,42 @@ exports.findUser = function (req) {
 }
 
 exports.login = function (password, salt) {
-    return sha512(password, salt)
+  return sha512(password, salt)
 }
 
-exports.updateUser = function(req, callback) {
-    usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
-        if (req.body.password) {
-            var pwdHash= saltHashPassword(req.body.password)
-            user.password_hash = pwdHash.passwordData
-            user.salt = pwdHash.salt
-        }
-        if (req.body.path) user.path = req.body.path
-        if (req.body.localitat) user.localitat = req.body.localitat
-        if (req.body.preferencies)user.preferencies = req.body.preferencies
-        if (req.body.productes)user.productes = req.body.productes
-        if (req.body.intercanvis)user.intercanvis = req.body.intercanvis
-        if (req.body.reputacio)user.reputacio = req.body.reputacio
-        
-        callback(user);
-    })
+exports.updateUser = function (req, callback) {
+  usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
+    if (req.body.password) {
+      var pwdHash = saltHashPassword(req.body.password)
+      user.password_hash = pwdHash.passwordData
+      user.salt = pwdHash.salt
+    }
+    if (req.body.path) user.path = req.body.path
+    if (req.body.localitat) user.localitat = req.body.localitat
+    if (req.body.preferencies)user.preferencies = req.body.preferencies
+    if (req.body.productes)user.productes = req.body.productes
+    if (req.body.intercanvis)user.intercanvis = req.body.intercanvis
+    if (req.body.reputacio)user.reputacio = req.body.reputacio
+
+    callback(user)
+  })
 }
 
-exports.getUser = function(req, callback) {
-  usuari.findOne({nom_user: req.params.nom_user}, function(err, user) {
+exports.getUser = function (req, callback) {
+  usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
     callback(err, user)
   })
 }
 
-exports.getAllUsers = function(callback) {
-  usuari.find({}, function(err, llista) {
+exports.getAllUsers = function (callback) {
+  usuari.find({}, function (err, llista) {
     callback(err, llista)
   })
 }
 
-exports.afegirImatge = function(req, res, callback) {
-  upload(req,res, function(err) {
-    usuari.findOne({nom_user: req.params.nom_user}, function(err, user){
+exports.afegirImatge = function (req, res, callback) {
+  upload(req, res, function (err) {
+    usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
       user.path = req.file.path
       user.save()
     })
@@ -118,23 +118,23 @@ exports.afegirImatge = function(req, res, callback) {
   })
 }
 
-exports.getImatge = function(req, callback) {
-  usuari.findOne({nom_user: req.params.nom_user}, function(err, user) {
-    callback(err, path.join(__dirname,'/../', user.path))
+exports.getImatge = function (req, callback) {
+  usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
+    callback(err, path.join(__dirname, '/../', user.path))
   })
 }
 
-exports.getUserBySearch = function(req, callback) {
+exports.getUserBySearch = function (req, callback) {
   usuari.aggregate(
     [
-      {"$match": {"preferencies": req.headers['preferencies']}},
-      {"$unwind": "$preferencies"},
-      {"$group": {
-        "_id": "$_id", 
-        "nom_user": {"$first": "$nom_user"}
+      {'$match': {'preferencies': req.headers['preferencies']}},
+      {'$unwind': '$preferencies'},
+      {'$group': {
+        '_id': '$_id',
+        'nom_user': {'$first': '$nom_user'}
       }}
-    ], 
-    function(err, llista) {
+    ],
+    function (err, llista) {
       console.log(llista)
       callback(err, llista)
     })
