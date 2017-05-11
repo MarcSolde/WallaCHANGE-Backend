@@ -23,8 +23,13 @@ exports.deleteElement = function (req, res) {
 
 }
 
-exports.getOneElement = function (req, res) {
-
+exports.getElementById = function (req, res) {
+    elementSvc.findElementById(req, function (err, element) {
+        if (err) {
+            res.status(500).send(err.message)
+        }
+        else res.status(200).json(element)
+    })
 }
 
 exports.getAllElements = function (req, res) {
@@ -42,7 +47,7 @@ exports.updateElement = function (req, res) {
 }
 
 exports.addComment = function (req, res) {
-    elementSvc.addComment(req, function (element) {
+    elementSvc.addComment(req, function (err, element) {
         console.log(element)
         elementSvc.saveElement(element, function (err) {
             if (err) res.status(500).send(err.message)
@@ -52,12 +57,10 @@ exports.addComment = function (req, res) {
 }
 
 exports.addImage = function (req, res) {
-    elementSvc.addImage(req, function (element) {
-        console.log(element)
-        elementSvc.saveElement(element, function (err) {
-            if (err) res.status(500).send(err.message)
-            else res.status(200).json(element)
-        })
+    console.log("intento afegir la imatge")
+    elementSvc.addImage(req, res, function (err, element) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).json(element)
     })
 }
 

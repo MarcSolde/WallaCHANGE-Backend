@@ -5,6 +5,20 @@ var mongoose = require('mongoose')
 var element = mongoose.model('element')
 var mongo = require('mongodb')
 'use strict'
+var multer = require('multer')
+var path = require('path')
+
+var storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './uploads/elements')
+    },
+    filename: function(req, file, callback) {
+        //console.log(file)
+        callback(null, Date.now()+'_'+file.originalname)
+    }
+})
+
+var upload = multer({ storage: storage }).array('elementPhoto', 2)
 
 exports.createElement = function (req) {
     var elem = new element({
@@ -80,8 +94,8 @@ exports.deleteComment = function (req, res) {
     })
 }
 
-exports.addImage = function (req, callback) {
-    var id = new mongo.ObjectID(req.params.id)
+exports.addImage = function (req, res, callback) {
+    /*var id = new mongo.ObjectID(req.params.id)
     element.findOne({_id: id}, function (err, element) {
         for (var i in req.body.imatges) {
             var image = {path: req.body.imatges[i]}
@@ -89,6 +103,15 @@ exports.addImage = function (req, callback) {
 
             callback(element)
         }
+    })*/
+    console.log("vaig a fer upload de la imatge")
+    upload(req, res, function(err) {
+        /*var id = new mongo.ObjectID(req.params.id)
+        element.findOne({_id: id}, function (err, element) {
+            element.imatges.push(req.file.path)
+            user.save()
+        })*/
+        callback(err, element)
     })
 }
 
@@ -100,6 +123,13 @@ exports.deleteImage = function (req, res) {
                 {},
                 { $pull: {"imatges": {"_id": req.body._id[i]}}})
         }
+    })
+}
+
+exports.findElementById = function (req, callback) {
+    var id = new mongo.ObjectID(req.params.id)
+    element.findOne({_id: id}, function (err, element) {
+        callback(element)
     })
 
 }
