@@ -19,7 +19,7 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({ storage: storage }).array('elementPhoto')
+var upload = multer({ storage: storage }).array('photo')
 
 exports.createElement = function (req) {
     var elem = new element({
@@ -101,7 +101,6 @@ exports.addImage = function (req, res, callback) {
                 element.imatges.push(image)
             }
             element.save()
-            console.log(element)
             callback(err)
         })
     })
@@ -109,12 +108,11 @@ exports.addImage = function (req, res, callback) {
 
 exports.deleteImage = function (req, res) {
     var id = new mongo.ObjectID(req.params.id)
-    element.findOne({_id: id}, function (err, element) {
-        for (var i in req.body._id) {
-            element.update(
-                {},
-                { $pull: {"imatges": {"_id": req.body._id[i]}}})
-        }
+    var i_id = new mongo.ObjectID(req.params.img_id)
+    element.findOne({_id: id}, function(err, element) {
+        element.update(
+            {},
+            { $pull: {"imatges": {"_id": i_id}}})
     })
 }
 
@@ -128,7 +126,7 @@ exports.findElementById = function (req, callback) {
 
 exports.getImage = function (req, callback) {
     var id = new mongo.ObjectID(req.params.id)
-    var img = new mongo.ObjectID(req.params.img)
+    var img = new mongo.ObjectID(req.params.img_id)
     element.aggregate([
         {"$unwind": "$imatges"},
         {"$match": {"_id": {"$eq":id},"imatges._id": {"$eq":img}}},
