@@ -6,6 +6,7 @@
     "test": "mocha --timeout 10000"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "body-parser": "^1.17.1",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",

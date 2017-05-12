@@ -36,6 +36,17 @@ exports.getAllElements = function (req, res) {
 
 }
 
+exports.getImage = function (req, res) {
+    elementSvc.getImage(req, function (err, pathPic) {
+        if (err) res.status(500).send(err.message)
+        else {
+            console.log(pathPic)
+            res.status(200)
+            res.sendFile(pathPic)
+        }
+    })
+}
+
 exports.updateElement = function (req, res) {
     elementSvc.updateElement(req, function (element) {
         console.log(element)
@@ -58,9 +69,9 @@ exports.addComment = function (req, res) {
 
 exports.addImage = function (req, res) {
     console.log("intento afegir la imatge")
-    elementSvc.addImage(req, res, function (err, element) {
+    elementSvc.addImage(req, res, function (err/*, pathPic*/) {
         if (err) res.status(500).send(err.message)
-        else res.status(200).json(element)
+        else res.status(200).send("Imatge guardada.")
     })
 }
 

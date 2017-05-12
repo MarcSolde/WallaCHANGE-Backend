@@ -7,6 +7,7 @@ var mongo = require('mongodb')
 'use strict'
 var multer = require('multer')
 var path = require('path')
+var assert = require('assert')
 
 var storage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -18,7 +19,7 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({ storage: storage }).array('elementPhoto', 2)
+var upload = multer({ storage: storage }).array('elementPhoto')
 
 exports.createElement = function (req) {
     var elem = new element({
@@ -34,10 +35,7 @@ exports.createElement = function (req) {
         coordenades: req.body.coordenades,
     })
 
-    for (var i in req.body.imatges) {
-        var image = {path: req.body.imatges[i]}
-        elem.imatges.push(image)
-    }
+    
 
     return elem
 }
@@ -95,23 +93,17 @@ exports.deleteComment = function (req, res) {
 }
 
 exports.addImage = function (req, res, callback) {
-    /*var id = new mongo.ObjectID(req.params.id)
-    element.findOne({_id: id}, function (err, element) {
-        for (var i in req.body.imatges) {
-            var image = {path: req.body.imatges[i]}
-            elem.imatges.push(image)
-
-            callback(element)
-        }
-    })*/
-    console.log("vaig a fer upload de la imatge")
     upload(req, res, function(err) {
-        /*var id = new mongo.ObjectID(req.params.id)
+        var id = new mongo.ObjectID(req.params.id)
         element.findOne({_id: id}, function (err, element) {
-            element.imatges.push(req.file.path)
-            user.save()
-        })*/
-        callback(err, element)
+            for (var i in req.files) {
+                var image = { path: req.files[i].path}
+                element.imatges.push(image)
+            }
+            element.save()
+            console.log(element)
+            callback(err)
+        })
     })
 }
 
@@ -132,4 +124,18 @@ exports.findElementById = function (req, callback) {
         callback(element)
     })
 
+}
+
+exports.getImage = function (req, callback) {
+    var id = new mongo.ObjectID(req.params.id)
+    var img = new mongo.ObjectID(req.params.img)
+    element.aggregate([
+        {"$unwind": "$imatges"},
+        {"$match": {"_id": {"$eq":id},"imatges._id": {"$eq":img}}},
+        {"$group": {
+            "_id": {"id":"$imatges._id", "path":"$imatges.path"}
+        }}
+    ], function (err, imgs) {
+        callback(err, path.join(__dirname, '/../', imgs[0]._id.path))
+    })
 }
