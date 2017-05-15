@@ -76,12 +76,12 @@ jsonReturn = function(res, err, object){
 
 llistaReturn = function(res, err, llista) {
   if (err) res.status(500).send(err.message)
-    else {
-      for (var i = llista.length - 1; i >= 0; i--) {
-        cleanUser(llista[i])
-      }
-      res.status(200).send(llista)
+  else {
+    for (var i = llista.length - 1; i >= 0; i--) {
+      cleanUser(llista[i])
     }
+    res.status(200).send(llista)
+  }
 }
 
 cleanUser = function(user) {
