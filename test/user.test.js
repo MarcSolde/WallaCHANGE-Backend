@@ -6,6 +6,7 @@ var chai = require('chai'),
 
 chai.use(chaiHttp)
 var userSvc = require('../services/user.service.js')
+var authSvc = require('../services/auth.service.js')
 var mongoose = require('mongoose')
 var user = require('../model/user.model')
 var usuari = mongoose.model('usuari')
@@ -100,49 +101,46 @@ describe('User', function () {
 	describe('#updateUserFunctionalityTesting', function() {
 		var authToken = null
 
-		it('should update the user properly',function(done){
-			chai.request(app)
+		var userJson = {
+			nom: "Pepito Grillo",
+			nom_user: "CCC"
+		}
 
-			//////
-			//Stub checktoken on es retorni next()
-			//sinon.stub(login)
-				.post('/addUser')
-				.send({
+		it('should update the user properly',function(done){
+			var stubLogin = sinon.stub(authSvc, 'checkToken').callsFake(function fake(req, res, next) {
+				next()
+			})
+
+			var stubUpdateUser = sinon.stub(userSvc, 'updateUser').callsFake(function fake2 (req, callback){
+				callback({
 					nom: "Pepito Grillo",
 					nom_user: "CCC",
-					password: "password"
-					})
-				.end(function (err, res){
-					chai.request(app)
-						.post('/login')
-						.send({
-							nom_user: 'CCC',
-							password: 'password'
-						})
-						.end(function(err, res) {
-							authToken=res.body.token
-							chai.request(app)
-								.put('/updateUser/CCC')
-								.send({
-									token: authToken,
-									localitat: 'Barcelona'
-								})
-								.end(function(err, res) {
-									chai.expect(err).to.be.null
-									chai.expect(res).not.to.be.null
-									chai.expect(res).to.have.status(200)
-									chai.expect(res).to.have.property('body')
-									chai.expect(res.body).to.have.property('nom')
-									chai.expect(res.body.nom).to.equal('Pepito Grillo')
-									chai.expect(res.body).to.have.property('nom_user')
-									chai.expect(res.body.nom_user).to.equal('CCC')
-									chai.expect(res.body).to.have.property('localitat')
-									chai.expect(res.body.localitat).to.equal('Barcelona')
-									done()
-								})
-						})
-					})
-				
+					localitat: 'Barcelona'
+				})
+			})
+
+			var stubSave = sinon.stub(userSvc, 'saveUser').callsFake(function fake3 (user, callback){
+				callback(null, user)
+			})
+			chai.request(app)	
+				.put('/updateUser/CCC')
+				.send({
+					token: authToken,
+					localitat: 'Barcelona'
+				})
+				.end(function(err, res) {
+					chai.expect(err).to.be.null
+					chai.expect(res).not.to.be.null
+					chai.expect(res).to.have.status(200)
+					chai.expect(res).to.have.property('body')
+					chai.expect(res.body).to.have.property('nom')
+					chai.expect(res.body.nom).to.equal('Pepito Grillo')
+					chai.expect(res.body).to.have.property('nom_user')
+					chai.expect(res.body.nom_user).to.equal('CCC')
+					chai.expect(res.body).to.have.property('localitat')
+					chai.expect(res.body.localitat).to.equal('Barcelona')
+					done()
+				})
 		})
 	})
 
