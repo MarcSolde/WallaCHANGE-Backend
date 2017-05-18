@@ -40,33 +40,38 @@ exports.loginFB = function (token, id, callback) {
     host: 'graph.facebook.com',
     path: '/me?access_token=' + token
   }
-
+  console.log('AAAA')
+  console.log(token)
   https.request(options, function (response) {
     var str = ''
 
     response.on('data', function (chunk) {
       str += chunk
     })
-
     response.on('end', function () {
       var json = JSON.parse(str)
+      console.log(json.id === id)
       if (json.id === id) {
+        console.log('AS')
         usuari.findOne({facebookId: id}, function (err, user) {
-          if (err) { callback(err, null) }
+          if (err) {
+            callback(err, null)
+            console.log('aa')
+          }
           if (!user) {
             var user = new usuari({
               nom: json.name,
               nom_user: json.name,
               facebookId: id
             })
-
+            console.log('bb')
             userSvc.saveUser(user, function (err, user) {
               if (err) {
-                callback(err, user)
+                callback(err, null)
               } else {
                 token = jwt.sign(user, config.secret, {
-                  expiresIn: 1440
-                })
+                      expiresIn: 1440
+                    })
                 callback(err, token)
               }
             })
@@ -75,9 +80,18 @@ exports.loginFB = function (token, id, callback) {
               expiresIn: 1440
             })
 
-            callback(null, token)
+            callback(null, {
+              success: true,
+              message: 'token created and given',
+              token: token
+            })
           }
         })
+      } else {
+        var err = {
+          message: 'ID o Token erroni'
+        }
+        callback(err, null)
       }
     })
   }).end()
