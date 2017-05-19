@@ -2,11 +2,6 @@
  * Created by annamasc on 24/03/2017.
  */
 
-
-/*var mongoose = require('mongoose')
-var element = mongoose.model('element')
-'use strict'*/
-
 var elementSvc = require('../services/element.service')
 
 exports.addElement = function (req, res) {
@@ -24,7 +19,6 @@ exports.deleteElement = function (req, res) {
       if (err) return res.status(500).send(err.message)
       else res.status(200).send()
     })
-
 }
 
 exports.getOneElement = function (req, res) {
@@ -36,6 +30,7 @@ exports.getOneElement = function (req, res) {
     } else res.status(200).json(element)
   })
 }
+
 /*
 exports.getElementByTitol = function (req, res) {
   elementSvc.findElementByTitol(req.params.titol, function (err, elem) {
@@ -46,11 +41,10 @@ exports.getElementByTitol = function (req, res) {
 }*/
 
 exports.getElementById = function (req, res) {
-  elementSvc.findElementById(req.params.id, function (err, elem) {
-    if (err) {
-      res.status(500).send(err.message)
-    } else res.status(200).json(elem)
-  })
+    elementSvc.findElementById(req, function (err, element) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).json(element)
+    })
 }
 
 exports.getAllElements = function (req, res) {
@@ -67,5 +61,48 @@ exports.getAllElements = function (req, res) {
 }
 
 exports.updateElement = function (req, res) {
-  elementSvc.updateElement(req, res)
+    elementSvc.updateElement(req, function (element) {
+        elementSvc.saveElement(element, function (err) {
+            if (err) res.status(500).send(err.message)
+            else res.status(200).json(element)
+        })
+    })
+}
+
+exports.addComment = function (req, res) {
+    elementSvc.addComment(req, function (err, element) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).json(element)
+    })
+}
+
+exports.addImage = function (req, res) {
+    elementSvc.addImage(req, res, function (err, element) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).json(element)
+    })
+}
+
+exports.getImage = function (req, res) {
+    elementSvc.getImage(req, function (err, pathPic) {
+        if (err) res.status(500).send(err.message)
+        else {
+            res.status(200)
+            res.sendFile(pathPic)
+        }
+    })
+}
+
+exports.deleteComment = function (req, res) {
+    elementSvc.deleteComment(req, function (err) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).send("Comentari esborrat.")
+    })
+}
+
+exports.deleteImage = function (req, res) {
+    elementSvc.deleteImage(req, function (err) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).send("Imatge esborrada.")
+    })
 }
