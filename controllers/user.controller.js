@@ -44,9 +44,62 @@ exports.updateUser = function (req, res) {
       if (err) res.status(500).send(err.message)
       else res.status(200).json(usuari)
     })
+}
+
+exports.getUser = function(req, res) {
+  userSvc.getUser(req, function(err, user) {
+    if (err) res.status(500).send(err.message)
+    else {
+      user.salt = undefined
+      user.password_hash = undefined
+      res.status(200).send(user)
+    }
+  })
+}
+
+exports.getAllUsers = function(req, res) {
+  userSvc.getAllUsers(function(err, llistaUsers) {
+    if (err) res.status(500).send(err.message)
+    else {
+      for (var i = llistaUsers.length - 1; i >= 0; i--) {
+        llistaUsers[i].salt = undefined
+        llistaUsers[i].password_hash = undefined
+      }
+      res.status(200).send(llistaUsers)
+    }
+  })
+}
+
+exports.afegirImatge = function(req, res) {
+  userSvc.afegirImatge(req,res,  function(err) {
+    if (err) res.status(500).send(err.message)
+    else res.status(200).send('Image uploaded')
   })
 }
 
 exports.login = function (req, res) {
   userSvc.login(req, res)
+}
+
+exports.getImatge = function(req, res) {
+  userSvc.getImatge(req, function(err, pathProfilePic) {
+    if (err) res.status(500).send(err.message)
+    else {
+      res.status(200)
+      res.sendFile(pathProfilePic)
+    }
+  })
+}
+
+exports.getUserBySearch = function(req, res) {
+  userSvc.getUserBySearch(req, function(err, llistaUsers) {
+    if (err) res.status(500).send(err.message)
+    else {
+      for (var i = llistaUsers.length - 1; i >= 0; i--) {
+        llistaUsers[i].salt = undefined
+        llistaUsers[i].password_hash = undefined
+      }
+      res.status(200).send(llistaUsers)
+    }
+  })
 }
