@@ -2,13 +2,6 @@
  * Created by annamasc on 24/03/2017.
  */
 
-<<<<<<< HEAD
-/* var mongoose = require('mongoose')
-var element = mongoose.model('element')
-'use strict' */
-
-=======
->>>>>>> 510181c132871dca6baf9dad2ea90745ce82aef2
 var elementSvc = require('../services/element.service')
 
 exports.addElement = function (req, res) {
@@ -21,17 +14,10 @@ exports.addElement = function (req, res) {
 }
 
 exports.deleteElement = function (req, res) {
-<<<<<<< HEAD
-  elementSvc.deleteElement(req, function (err) {
-    if (err) return res.status(500).send(err.message)
-    else res.status(200).send()
-  })
-=======
     elementSvc.deleteElement(req, function (err) {
       if (err) return res.status(500).send(err.message)
       else res.status(200).send()
     })
->>>>>>> 510181c132871dca6baf9dad2ea90745ce82aef2
 }
 
 exports.getOneElement = function (req, res) {
