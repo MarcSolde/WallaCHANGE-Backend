@@ -9,7 +9,7 @@ var elementSchema = new mongoose.Schema({
   }],
   nom_user: {
     type: String,
-    required: true
+    required: false
   },
   data_publicacio: Date,
   tipus_element: String,

@@ -49,9 +49,9 @@ exports.getElementById = function (req, res) {
 exports.getAllElements = function (req, res) {
   console.log("kakadevakaNOESCRIDA")
   var filter = {
-    'titol': req.header('titol'),
-    'longitud': req.header(),
-    'latitud': req.header() 
+    'titol': req.header('titol')
+    // 'longitud': req.header(),
+    // 'latitud': req.header() 
     // 'localitat': req.header('localitat'),
     // 'es_temporal': req.header('es_temporal')
   }
