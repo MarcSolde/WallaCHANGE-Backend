@@ -2,10 +2,6 @@
  * Created by annamasc on 24/03/2017.
  */
 
-/*var mongoose = require('mongoose')
-var element = mongoose.model('element')
-'use strict'*/
-
 var elementSvc = require('../services/element.service')
 
 exports.addElement = function (req, res) {
@@ -19,9 +15,30 @@ exports.addElement = function (req, res) {
 }
 
 exports.deleteElement = function (req, res) {
-    elementSvc.deleteElement(req, res)
-
+    elementSvc.deleteElement(req, function (err) {
+      if (err) return res.status(500).send(err.message)
+      else res.status(200).send()
+    })
 }
+
+exports.getOneElement = function (req, res) {
+  var element = elementSvc.createElement(req)
+  elementSvc.saveElement(element, function (err, nErr) {
+    if (err) {
+      console.log("no s'ha guardat l'element")
+      res.status(500).send(err.message)
+    } else res.status(200).json(element)
+  })
+}
+
+/*
+exports.getElementByTitol = function (req, res) {
+  elementSvc.findElementByTitol(req.params.titol, function (err, elem) {
+    if (err) {
+      res.status(500).send(err.message)
+    } else res.status(200).json(elem)
+  })
+}*/
 
 exports.getElementById = function (req, res) {
     elementSvc.findElementById(req, function (err, element) {
@@ -31,17 +48,16 @@ exports.getElementById = function (req, res) {
 }
 
 exports.getAllElements = function (req, res) {
-
-}
-
-exports.getImage = function (req, res) {
-    elementSvc.getImage(req, function (err, pathPic) {
-        if (err) res.status(500).send(err.message)
-        else {
-            res.status(200)
-            res.sendFile(pathPic)
-        }
-    })
+  var filter = {
+    'titol': req.header('titol')
+    //'localitat': req.header('localitat'),
+    //'es_temporal': req.header('es_temporal')
+  }
+  elementSvc.findElementByTitolLocalitatPublicacio(filter, function (err, elem) {
+    if (err) {
+      res.status(500).send(err.message)
+    } else res.status(200).json(elem)
+  })
 }
 
 exports.updateElement = function (req, res) {
@@ -64,6 +80,16 @@ exports.addImage = function (req, res) {
     elementSvc.addImage(req, res, function (err, element) {
         if (err) res.status(500).send(err.message)
         else res.status(200).json(element)
+    })
+}
+
+exports.getImage = function (req, res) {
+    elementSvc.getImage(req, function (err, pathPic) {
+        if (err) res.status(500).send(err.message)
+        else {
+            res.status(200)
+            res.sendFile(pathPic)
+        }
     })
 }
 

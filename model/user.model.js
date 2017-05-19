@@ -22,16 +22,11 @@ var userSchema = new mongoose.Schema({
     productes: [String],
     intercanvis: [String],
     reputacio: {
-        type: String,
-        default: ''
+        type: Number,
+        default: 50
     },
     facebookId: String,
-    twitter: [
-        {
-            id: String, 
-            name: String
-        }
-    ]
+    twitterId: String,
 
 
 })

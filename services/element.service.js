@@ -49,8 +49,6 @@ exports.createElement = function (req) {
         coordenades: req.body.coordenades,
     })
 
-    
-
     return elem
 }
 
@@ -60,13 +58,28 @@ exports.saveElement = function(element, callback) {
     })
 }
 
-exports.deleteElement = function (req, res) {
+exports.deleteElement = function (req, callback) {
     element.findOne({_id: req.params._id}, function(err, element) {
         element.remove(function (err) {
-            if (err) return res.status(500).send(err.message)
-            res.status(200).send()
+            callback(err)
         })
     })
+}
+
+exports.findElementByTitolLocalitatPublicacio = function (filter, callback) {
+  element.find({titol: {'$regex': filter.titol}},
+  null,
+  {skip: 0, limit: 20, sort: {data_publicacio: -1}},
+  function (err, elem) { callback(err, elem) })
+}
+
+
+exports.findElementById = function (req, callback) {
+    var id = new mongo.ObjectID(req.params.id)
+    element.findOne({_id: id}, function (err, element) {
+        callback(err, element)
+    })
+
 }
 
 exports.updateElement = function (req, callback) {
@@ -133,14 +146,6 @@ exports.deleteImage = function (req, callback) {
             })
         }
     })
-}
-
-exports.findElementById = function (req, callback) {
-    var id = new mongo.ObjectID(req.params.id)
-    element.findOne({_id: id}, function (err, element) {
-        callback(err, element)
-    })
-
 }
 
 exports.getImage = function (req, callback) {
