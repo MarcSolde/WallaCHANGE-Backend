@@ -2,15 +2,11 @@
 mongoose = require('mongoose')
 
 var elementSchema = new mongoose.Schema({
-  titol: {
-    type: String,
-    required: true
-  },
+  titol: String,
   descripcio: String,
-  imatges: {
-    type: [{ path: String }],
-    required: false
-  },
+  imatges: [{
+    path: String
+  }],
   nom_user: {
     type: String,
     required: true
