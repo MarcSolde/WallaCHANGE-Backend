@@ -75,7 +75,7 @@ exports.findUser = function (req) {
 }
 
 exports.login = function (password, salt) {
-    return sha512(password, salt)
+  return sha512(password, salt)
 }
 
 exports.updateUser = function(req, callback) {

@@ -36,15 +36,15 @@ exports.deleteUser = function (req, res) {
 }
 
 exports.updateUser = function (req, res) {
-    console.log("PUT")
+  console.log('PUT')
 
-    userSvc.updateUser(req, function(usuari) {
-        console.log(usuari)
-        userSvc.saveUser(usuari, function(err){
-            if (err) res.status(500).send(err.message)
-            else res.status(200).json(usuari)
-        })
+  userSvc.updateUser(req, function (usuari) {
+    console.log(usuari)
+    userSvc.saveUser(usuari, function (err) {
+      if (err) res.status(500).send(err.message)
+      else res.status(200).json(usuari)
     })
+  })
 }
 
 exports.getUser = function(req, res) {

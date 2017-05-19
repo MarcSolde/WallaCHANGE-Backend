@@ -28,7 +28,6 @@ var userSchema = new mongoose.Schema({
     facebookId: String,
     twitterId: String,
 
-
 })
 
 module.exports = mongoose.model('usuari', userSchema)

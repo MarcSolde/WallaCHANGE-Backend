@@ -1,0 +1,18 @@
+process.env.NODE_ENV = 'test'
+'use strict'
+
+var chai = require('chai')
+var chaiHttp = require('chai-http')
+
+chai.use(chaiHttp)
+
+var usuari = mongoose.model('usuari')
+var element = mongoose.model('element')
+var user = require('../model/user.model')
+var elem = require('../model/element.model')
+
+let app = require('../server')
+
+
+var mongoose = require('mongoose')
+
