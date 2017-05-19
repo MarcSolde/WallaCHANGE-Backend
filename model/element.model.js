@@ -9,7 +9,7 @@ var elementSchema = new mongoose.Schema({
   descripcio: String,
   imatges: {
     type: [{ path: String }],
-    required: true
+    required: false
   },
   nom_user: {
     type: String,
@@ -17,7 +17,7 @@ var elementSchema = new mongoose.Schema({
   },
   data_publicacio: Date,
   tipus_element: String,
-  es_temporal: Boolean,
+  es_temporal: String,
   tags: [String],
   comentaris: [{
     text: String,
@@ -25,8 +25,8 @@ var elementSchema = new mongoose.Schema({
   }],
   localitat: String,
   coordenades: {
-    x: Number,
-    y: Number
+    x: String,
+    y: String
   }
 })
 

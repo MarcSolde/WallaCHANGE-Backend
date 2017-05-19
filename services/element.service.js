@@ -42,10 +42,12 @@ exports.deleteElement = function (req, callback) {
   })
 }
 
-exports.findElementByTitolLocalitatPublicacio = function (filter, callback) {
+exports.findElementByTitolFiltre = function (filter, callback) {
   element.find({titol: {'$regex': filter.titol}},
   null,
-  {skip: 0, limit: 20, sort: {data_publicacio: -1}},
+  { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },
+  // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
+  {sort: {data_publicacio: -1}},
   function (err, elem) { callback(err, elem) })
 }
 
