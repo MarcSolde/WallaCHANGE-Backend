@@ -35,7 +35,7 @@ unlinkImage = function(elem, img, callback) {
     })
 }
 
-exports.createElement = function (req) {
+exports.createElement = function (req, callback) {
     var elem = new element({
         titol: req.body.titol,
         descripcio: req.body.descripcio,
@@ -45,16 +45,17 @@ exports.createElement = function (req) {
         tipus_element: req.body.tipus_element,
         es_temporal: req.body.es_temporal,
         tags: req.body.tags,
-        comentaris: [],
-        coordenades: req.body.coordenades,
+        comentaris: req.body.comentaris,
+        localitat: req.body.localitat,
+        coordenades: req.body.coordenades
     })
 
-    return elem
+    callback(elem)
 }
 
 exports.saveElement = function(element, callback) {
-    element.save(function (err, element) {
-        callback(err, element)
+    element.save(function (err) {
+        callback(err)
     })
 }
 
