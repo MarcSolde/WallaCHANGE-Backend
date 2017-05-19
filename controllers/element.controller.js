@@ -5,12 +5,12 @@
 var elementSvc = require('../services/element.service')
 
 exports.addElement = function (req, res) {
-  var element = elementSvc.createElement(req)
-  var stat = elementSvc.saveElement(element, function (err, nErr) {
-    if (err) {
-      res.status(500).send(err.message)
-    } else res.status(200).json(element)
-  })
+    elementSvc.createElement(req, function (element) {
+      elementSvc.saveElement(element, function (err) {
+          if (err) res.status(500).send(err.message)
+          else res.status(200).json(element)
+      })
+    })
 }
 
 exports.deleteElement = function (req, res) {
@@ -59,6 +59,13 @@ exports.getAllElements = function (req, res) {
     if (err) {
       res.status(500).send(err.message)
     } else res.status(200).json(elem)
+  })
+}
+
+exports.getElementsByNomUser = function (req, res) {
+  elementSvc.findElementsByNomUser(req, function(err, elements) {
+    if (err) res.status(500).send(err.message)
+    else res.status(200).json(elements)
   })
 }
 

@@ -1,8 +1,8 @@
 process.env.NODE_ENV = 'test'
 'use strict'
 
-var chai = require('chai'),
-	 chaiHttp = require('chai-http')
+var chai = require('chai')
+var chaiHttp = require('chai-http')
 
 chai.use(chaiHttp)
 

@@ -65,6 +65,7 @@ exports.loginFB = function(token, id, callback) {
                             nom_user: json.name,
                             facebookId: id
                         })
+			user.nom_user = user.nom_user.replace(/\s/g, '');
                         console.log('bb')
                         userSvc.saveUser(user, function(err, user) {
                             if (err) {

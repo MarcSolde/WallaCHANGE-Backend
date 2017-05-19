@@ -35,27 +35,29 @@ unlinkImage = function (elem, img, callback) {
   })
 }
 
-exports.createElement = function (req) {
-  var elem = new element({
-    titol: req.body.titol,
-    descripcio: req.body.descripcio,
-    imatges: [],
-    nom_user: req.body.nom_user,
-    data_publicacio: req.body.data_publicacio,
-    tipus_element: req.body.tipus_element,
-    es_temporal: req.body.es_temporal,
-    tags: req.body.tags,
-    comentaris: [],
-    coordenades: req.body.coordenades
-  })
 
-  return elem
+exports.createElement = function (req, callback) {
+    var elem = new element({
+        titol: req.body.titol,
+        descripcio: req.body.descripcio,
+        imatges: [],
+        nom_user: req.body.nom_user,
+        data_publicacio: req.body.data_publicacio,
+        tipus_element: req.body.tipus_element,
+        es_temporal: req.body.es_temporal,
+        tags: req.body.tags,
+        comentaris: req.body.comentaris,
+        localitat: req.body.localitat,
+        coordenades: req.body.coordenades
+    })
+
+    callback(elem)
 }
 
-exports.saveElement = function (element, callback) {
-  element.save(function (err, element) {
-    callback(err, element)
-  })
+exports.saveElement = function(element, callback) {
+    element.save(function (err) {
+        callback(err)
+    })
 }
 
 exports.deleteElement = function (req, callback) {
@@ -76,9 +78,16 @@ exports.findElementByTitolFiltre = function (filter, callback) {
 }
 
 exports.findElementById = function (req, callback) {
-  var id = new mongo.ObjectID(req.params.id)
-  element.findOne({_id: id}, function (err, element) {
-    callback(err, element)
+    var id = new mongo.ObjectID(req.params.id)
+    element.findOne({_id: id}, function (err, element) {
+        callback(err, element)
+    })
+}
+
+exports.findElementsByNomUser = function(req, callback) {
+  var usr = req.params.nom_user
+  element.find({nom_user: usr}, function(err, elems) {
+    callback(err, elems)
   })
 }
 
