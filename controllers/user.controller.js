@@ -51,8 +51,9 @@ exports.getUser = function(req, res) {
   userSvc.getUser(req, function(err, user) {
     if (err) res.status(500).send(err.message)
     else {
-      user.salt = undefined
-      user.password_hash = undefined
+      console.log(user)
+      //user.salt = undefined
+      //user.password_hash = undefined
       res.status(200).send(user)
     }
   })
@@ -63,8 +64,8 @@ exports.getAllUsers = function(req, res) {
     if (err) res.status(500).send(err.message)
     else {
       for (var i = llistaUsers.length - 1; i >= 0; i--) {
-        llistaUsers[i].salt = undefined
-        llistaUsers[i].password_hash = undefined
+       //j llistaUsers[i].salt = undefined
+        //llistaUsers[i].password_hash = undefined
       }
       res.status(200).send(llistaUsers)
     }
@@ -97,8 +98,8 @@ exports.getUserBySearch = function(req, res) {
     if (err) res.status(500).send(err.message)
     else {
       for (var i = llistaUsers.length - 1; i >= 0; i--) {
-        llistaUsers[i].salt = undefined
-        llistaUsers[i].password_hash = undefined
+     //   llistaUsers[i].salt = undefined
+      //  llistaUsers[i].password_hash = undefined
       }
       res.status(200).send(llistaUsers)
     }
