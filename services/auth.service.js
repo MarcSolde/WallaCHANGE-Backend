@@ -34,7 +34,8 @@ var login = function (req, res) {
   })
 }
 
-exports.loginFB = function (token, id, callback) {
+exports.loginFB = function(token, id, callback) {
+
     var options = {
         //https://
         host: 'graph.facebook.com',
@@ -116,10 +117,10 @@ exports.loginFB = function (token, id, callback) {
               }
               callback(err, null)
             }
-        })
-      }
-    })
-  }).end()
+
+        });   
+    }).end()   
+    
 }
 
 exports.checkToken = function (req, res, next) {
