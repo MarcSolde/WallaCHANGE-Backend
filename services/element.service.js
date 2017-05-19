@@ -79,7 +79,13 @@ exports.findElementById = function (req, callback) {
     element.findOne({_id: id}, function (err, element) {
         callback(err, element)
     })
+}
 
+exports.findElementsByNomUser = function(req, callback) {
+  var usr = req.params.nom_user
+  element.find({nom_user: usr}, function(err, elems) {
+    callback(err, elems)
+  })
 }
 
 exports.updateElement = function (req, callback) {
