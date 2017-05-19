@@ -25,9 +25,7 @@ exports.deleteElement = function (req, res) {
 
 exports.getElementById = function (req, res) {
     elementSvc.findElementById(req, function (err, element) {
-        if (err) {
-            res.status(500).send(err.message)
-        }
+        if (err) res.status(500).send(err.message)
         else res.status(200).json(element)
     })
 }
@@ -59,26 +57,28 @@ exports.updateElement = function (req, res) {
 
 exports.addComment = function (req, res) {
     elementSvc.addComment(req, function (err, element) {
-        console.log(element)
-        elementSvc.saveElement(element, function (err) {
-            if (err) res.status(500).send(err.message)
-            else res.status(200).json(element)
-        })
+        if (err) res.status(500).send(err.message)
+        else res.status(200).json(element)
     })
 }
 
 exports.addImage = function (req, res) {
-    console.log("intento afegir la imatge")
-    elementSvc.addImage(req, res, function (err/*, pathPic*/) {
+    elementSvc.addImage(req, res, function (err, element) {
         if (err) res.status(500).send(err.message)
-        else res.status(200).send("Imatge guardada.")
+        else res.status(200).json(element)
     })
 }
 
 exports.deleteComment = function (req, res) {
-    elementSvc.deleteComment(req, res)
+    elementSvc.deleteComment(req, function (err) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).send("Comentari esborrat.")
+    })
 }
 
 exports.deleteImage = function (req, res) {
-    elementSvc.deleteImage(req, res)
+    elementSvc.deleteImage(req, function (err) {
+        if (err) res.status(500).send(err.message)
+        else res.status(200).send("Imatge esborrada.")
+    })
 }
