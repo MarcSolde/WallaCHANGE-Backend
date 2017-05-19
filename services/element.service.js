@@ -15,7 +15,6 @@ var storage = multer.diskStorage({
         callback(null, './uploads/elements')
     },
     filename: function(req, file, callback) {
-        //console.log(file)
         callback(null, Date.now()+'_'+file.originalname)
     }
 })
@@ -139,7 +138,6 @@ exports.deleteImage = function (req, callback) {
 exports.findElementById = function (req, callback) {
     var id = new mongo.ObjectID(req.params.id)
     element.findOne({_id: id}, function (err, element) {
-        console.log(element)
         callback(err, element)
     })
 

@@ -38,7 +38,6 @@ exports.getImage = function (req, res) {
     elementSvc.getImage(req, function (err, pathPic) {
         if (err) res.status(500).send(err.message)
         else {
-            console.log(pathPic)
             res.status(200)
             res.sendFile(pathPic)
         }
@@ -47,7 +46,6 @@ exports.getImage = function (req, res) {
 
 exports.updateElement = function (req, res) {
     elementSvc.updateElement(req, function (element) {
-        console.log(element)
         elementSvc.saveElement(element, function (err) {
             if (err) res.status(500).send(err.message)
             else res.status(200).json(element)
