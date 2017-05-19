@@ -10,6 +10,7 @@ var mongoose = require('mongoose')
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(methodOverride())
+
 app.use(function(res, req, next) {
 	res.header("Access-Control-Allow-Origin","*")
 	res.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept")
