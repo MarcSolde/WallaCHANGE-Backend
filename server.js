@@ -10,9 +10,14 @@ var mongoose = require('mongoose')
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(methodOverride())
+app.use(function(res, req, next) {
+	res.header("Access-Control-Allow-Origin","*")
+	res.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept")
+	next()
+})
 
-var userModel = require('./model/user.model')
-var elemModel = require('./model/element.model')
+var userModel = require('./model/user.model');	
+var elemModel = require('./model/element.model');
 
 var router = express.Router()
 
@@ -23,8 +28,8 @@ app.use(router)
 
 var Mongodb
 
-if (process.argv[2] === 'docker') Mongodb = 'mongodb://localhost/pesDB'
-else Mongodb = 'mongodb://localhost/pesDB'
+if (process.argv[2] === 'docker') Mongodb = 'mongodb://192.168.99.100:27017/pesDB'
+else Mongodb = 'mongodb://localhost:27017/pesDB'
 
 mongoose.connect(Mongodb, function (err, res) {
   if (err) {
