@@ -60,6 +60,13 @@ exports.getAllElements = function (req, res) {
   })
 }
 
+exports.getElementsByNomUser = function (req, res) {
+  elementSvc.findElementsByNomUser(req, function(err, elements) {
+    if (err) res.status(500).send(err.message)
+    else res.status(200).json(elements)
+  })
+}
+
 exports.updateElement = function (req, res) {
     elementSvc.updateElement(req, function (element) {
         elementSvc.saveElement(element, function (err) {
