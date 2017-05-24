@@ -59,6 +59,7 @@ exports.createUser = function (req) {
 }
 
 exports.saveUser = function (user, callback) {
+  user.nom_user = user.nom_user.replace(/\s+/g, '')
   user.save(function (err, user) {
     callback(err, user)
   })

@@ -1,30 +1,9 @@
-/* var mongoose = require("mongoose")
- var usuari = mongoose.model('usuari')
- 'use strict'
- var crypto = require('crypto')
- var jwt = require('jsonwebtoken')
- var config = require('../config')
- */
-
 var userSvc = require('../services/user.service')
-
-/* exports.addUser = function (req, res) {
- var usuari = userSvc.createUser(req)
- var estatSvc = userSvc.saveUser(usuari)
- if (typeof(estatSvc) == typeof({a:"a", b:"b"})) {
- console.log("hola")
- res.status(500).send(estatSvc.message)
- }
- else res.status(200).json(usuari)
- } */
 
 exports.addUser = function (req, res) {
   var usuari = userSvc.createUser(req)
   userSvc.saveUser(usuari, function (err, nErr) {
-    if (err) {
-      console.log('hola')
-      res.status(500).send(err.message)
-    } else res.status(200).json(usuari)
+    jsonReturn(res, err, usuari)
   })
 }
 
@@ -36,39 +15,26 @@ exports.deleteUser = function (req, res) {
 }
 
 exports.updateUser = function (req, res) {
-  console.log('PUT')
-
-  userSvc.updateUser(req, function (usuari) {
-    console.log(usuari)
-    userSvc.saveUser(usuari, function (err) {
-      if (err) res.status(500).send(err.message)
-      else res.status(200).json(usuari)
+    userSvc.updateUser(req, function(usuari) {
+        userSvc.saveUser(usuari, function(err){
+            jsonReturn(res, err, usuari)
+        })
     })
-  })
-}
+  }
 
 exports.getUser = function (req, res) {
   userSvc.getUser(req, function (err, user) {
     if (err) res.status(500).send(err.message)
     else {
-      console.log(user)
-      //user.salt = undefined
-      //user.password_hash = undefined
+      cleanUser(user)
       res.status(200).send(user)
     }
   })
 }
 
-exports.getAllUsers = function (req, res) {
-  userSvc.getAllUsers(function (err, llistaUsers) {
-    if (err) res.status(500).send(err.message)
-    else {
-      for (var i = llistaUsers.length - 1; i >= 0; i--) {
-       //j llistaUsers[i].salt = undefined
-        //llistaUsers[i].password_hash = undefined
-      }
-      res.status(200).send(llistaUsers)
-    }
+exports.getAllUsers = function(req, res) {
+  userSvc.getAllUsers(function(err, llistaUsers) {
+    llistaReturn(res, err, llistaUsers)
   })
 }
 
@@ -93,15 +59,35 @@ exports.getImatge = function (req, res) {
   })
 }
 
-exports.getUserBySearch = function (req, res) {
-  userSvc.getUserBySearch(req, function (err, llistaUsers) {
-    if (err) res.status(500).send(err.message)
-    else {
-      for (var i = llistaUsers.length - 1; i >= 0; i--) {
-     //   llistaUsers[i].salt = undefined
-      //  llistaUsers[i].password_hash = undefined
-      }
-      res.status(200).send(llistaUsers)
-    }
+exports.getUserBySearch = function(req, res) {
+  userSvc.getUserBySearch(req, function(err, llistaUsers) {
+    llistaReturn(res, err, llistaUsers)
   })
 }
+
+stdReturn = function(res, err, object) {
+
+}
+
+jsonReturn = function(res, err, object){
+  if (err) res.status(500).send(err.message)
+  else res.status(200).json(object)
+}
+
+llistaReturn = function(res, err, llista) {
+  if (err) res.status(500).send(err.message)
+  else {
+    for (var i = llista.length - 1; i >= 0; i--) {
+      cleanUser(llista[i])
+    }
+    res.status(200).send(llista)
+  }
+}
+
+cleanUser = function(user) {
+  user.salt = undefined
+  user.password_hash = undefined
+  return user
+}
+
+  
