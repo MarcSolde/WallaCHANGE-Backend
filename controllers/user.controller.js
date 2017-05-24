@@ -20,8 +20,7 @@ exports.updateUser = function (req, res) {
             jsonReturn(res, err, usuari)
         })
     })
-  })
-}
+  }
 
 exports.getUser = function (req, res) {
   userSvc.getUser(req, function (err, user) {
