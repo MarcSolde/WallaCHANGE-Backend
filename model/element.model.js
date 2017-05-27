@@ -3,26 +3,32 @@ mongoose = require('mongoose')
 
 var elementSchema = new mongoose.Schema({
     titol: String,
+    element_id: String,
     descripcio: String,
     imatges: [{
-        path: String
+        path: String,
+        image_id: String
     }],
-    nom_user: {
+    user_id: {
         type: String,
         required: true
     },
     data_publicacio: Date,
     tipus_element: String,
-    es_temporal: String,
+    es_temporal: {
+        temporalitat: Boolean,
+        periode: String
+    },
     tags: [String],
     comentaris: [{
         text: String,
-        nom_user: String
+        user_id: String,
+        data: Date,
+        comment_id: String
     }],
-    localitat: String,
     coordenades: {
-        x: String,
-        y: String
+        type: [Number], // [<longitude>, <latitude>]
+        index: '2d'
     },
 })
 

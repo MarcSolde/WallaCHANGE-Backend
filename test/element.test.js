@@ -52,9 +52,9 @@ describe('Element', function () {
 						expect(res.body.titol).to.equal('Bicicleta')
 						expect(res.body).to.have.property('descripcio')
 						expect(res.body.descripcio).to.equal('bicicleta roja')
-						expect(res.body).to.have.property('nom_user')
+						expect(res.body).to.have.property('user_id')
 						expect(res.body.nom_user).to.equal('CCC2')
-						elemID = res.body._id
+						elemID = res.body.element_id
 						done()
 					})
 				})

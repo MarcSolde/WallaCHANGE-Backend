@@ -59,8 +59,8 @@ exports.getAllElements = function (req, res) {
   })
 }
 
-exports.getElementsByNomUser = function (req, res) {
-  elementSvc.findElementsByNomUser(req, function(err, elements) {
+exports.getElementsByUserId = function (req, res) {
+  elementSvc.findElementsByUserId(req, function(err, elements) {
     if (err) res.status(500).send(err.message)
     else res.status(200).json(elements)
   })
