@@ -70,6 +70,7 @@ stdReturn = function(res, err, object) {
 }
 
 jsonReturn = function(res, err, object){
+  cleanUser(object)
   if (err) res.status(500).send(err.message)
   else res.status(200).json(object)
 }
@@ -85,6 +86,9 @@ llistaReturn = function(res, err, llista) {
 }
 
 cleanUser = function(user) {
+  console.log("AAAA"+user)
+  user._id = undefined
+  user.facebookId = undefined
   user.salt = undefined
   user.password_hash = undefined
   return user

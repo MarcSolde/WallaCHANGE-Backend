@@ -4,6 +4,7 @@ var usuari = mongoose.model('usuari')
 var userSvc = require('./user.service')
 var config = require('../config/config')
 var https = require('https')
+const uuidV4 = require('uuid/v4')
 'use strict'
 
 var login = function (req, res) {
@@ -63,9 +64,10 @@ exports.loginFB = function(token, id, callback) {
                         var user = new usuari ({
                             nom: json.name,
                             nom_user: json.name,
-                            facebookId: id
+                            facebookId: id,
+                            id: uuidV4()
                         })
-			user.nom_user = user.nom_user.replace(/\s/g, '');
+			                  user.nom_user = user.nom_user.replace(/\s/g, '');
                         console.log('bb')
                         userSvc.saveUser(user, function(err, user) {
                             if (err) {
@@ -87,7 +89,8 @@ exports.loginFB = function(token, id, callback) {
                                   intercanvis: user.intercanvis,
                                   preferencies: user.preferencies,
                                   localitat: user.localitat,
-                                  path: user.path
+                                  path: user.path,
+                                  id: user.id
                                 })
                             }
                         })
@@ -109,7 +112,8 @@ exports.loginFB = function(token, id, callback) {
                           intercanvis: user.intercanvis,
                           preferencies: user.preferencies,
                           localitat: user.localitat,
-                          path: user.path
+                          path: user.path,
+                          id: user.id
                         })
                     }
                 })
