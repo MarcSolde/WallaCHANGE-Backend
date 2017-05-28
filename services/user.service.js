@@ -111,7 +111,10 @@ exports.getAllUsers = function (callback) {
 
 exports.afegirImatge = function (req, res, callback) {
   upload(req, res, function (err) {
+    console.log(req.params.nom_user)
     usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
+      console.log(req.file)
+      console.log(user)
       user.path = req.file.path
       user.save()
     })
