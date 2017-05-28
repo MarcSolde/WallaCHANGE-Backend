@@ -1,7 +1,9 @@
-FROM node:4.4
-EXPOSE 3000
-COPY . /app
+FROM node:7-alpine
+
 WORKDIR /app
-VOLUME /root/images/users:/images/users
-VOLUME /root/images/prods:/images/prods
+COPY package.json /app
+RUN npm install
+COPY . /app
+VOLUME /root/uploads/profile:/app/uploads/profile
+VOLUME /root/uploads/elements:/app/uploads/elements
 CMD ["node", "server.js", "server"]

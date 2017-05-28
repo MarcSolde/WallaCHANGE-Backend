@@ -7,8 +7,14 @@ var userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    password_hash: String,
-    salt: String,
+    password_hash: {
+        type: String,
+        default: ''
+    },
+    salt: {
+        type: String,
+        default: ''
+    },
     path: {
         type: String,
         default: ''
@@ -18,21 +24,24 @@ var userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    preferencies: [String],
-    productes: [String],
-    intercanvis: [String],
+    preferencies: {
+        type: Array,
+        default: []
+    },
+    productes: {
+        type: Array,
+        default: []
+    },
+    intercanvis: {
+        type: Array,
+        default: []
+    },
     reputacio: {
-        type: String,
-        default: ''
+        type: Number,
+        default: 50
     },
     facebookId: String,
-    twitter: [
-        {
-            id: String, 
-            name: String
-        }
-    ]
-
+    twitterId: String,
 
 })
 

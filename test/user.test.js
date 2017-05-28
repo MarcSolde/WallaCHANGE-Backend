@@ -1,8 +1,8 @@
 process.env.NODE_ENV = 'test'
 'use strict'
 
-var chai = require('chai'),
-	 chaiHttp = require('chai-http')
+var chai = require('chai')
+var chaiHttp = require('chai-http')
 
 chai.use(chaiHttp)
 var userSvc = require('../services/user.service.js')
@@ -85,21 +85,21 @@ describe('User', function () {
   chai.request(app)
 								.delete('/deleteUser/CCC')
 								.send({
-									token: authToken
-								})
-								.end(function(err, res) {
-									chai.expect(err).to.be.null
-									chai.expect(res).not.to.be.null
-									chai.expect(res).to.have.status(200)
-									done()
-								})
-						})
-					})
-		})
-	})
+  token: authToken
+})
+								.end(function (err, res) {
+  chai.expect(err).to.be.null
+  chai.expect(res).not.to.be.null
+  chai.expect(res).to.have.status(200)
+  done()
+})
+})
+})
+    })
+  })
 
-	describe('#updateUserFunctionalityTesting', function() {
-		var authToken = null
+  describe('#updateUserFunctionalityTesting', function () {
+    var authToken = null
 
 		var userJson = {
 			nom: "Pepito Grillo",

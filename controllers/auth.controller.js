@@ -5,12 +5,9 @@ exports.login = function (req, res) {
 }
 
 exports.loginFB = function (req, res) {
-	var login = authSvc.loginFB(req.body.token, req.body.id, function(err, token) {
-		if (err)
-			res.status(500).send(err.message)
-		else res.status(200).json(token)
-	})
-
+  var login = authSvc.loginFB(req.body.token, req.body.id, function (err, token) {
+    if (err) { res.status(500).send(err.message) } else res.status(200).json(token)
+  })
 }
 
 exports.loginTW = function (req, res) {

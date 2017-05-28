@@ -65,6 +65,7 @@ exports.loginFB = function(token, id, callback) {
                             nom_user: json.name,
                             facebookId: id
                         })
+			user.nom_user = user.nom_user.replace(/\s/g, '');
                         console.log('bb')
                         userSvc.saveUser(user, function(err, user) {
                             if (err) {
@@ -74,7 +75,20 @@ exports.loginFB = function(token, id, callback) {
                                 token = jwt.sign(user, config.secret, {
                                     expiresIn: 1440
                                 })
-                                callback(err, token)
+                                callback(err, {
+                                  success: true,
+                                  message: 'token created and given',
+                                  token: token,
+                                  nom: user.nom,
+                                  nom_user: user.nom_user,
+                                  facebookId: user.facebookId,
+                                  productes: user.productes,
+                                  reputacio: user.reputacio,
+                                  intercanvis: user.intercanvis,
+                                  preferencies: user.preferencies,
+                                  localitat: user.localitat,
+                                  path: user.path
+                                })
                             }
                         })
                     }
@@ -86,7 +100,16 @@ exports.loginFB = function(token, id, callback) {
                         callback(null, {
                           success: true,
                           message: 'token created and given',
-                          token: token
+                          token: token,
+                          nom: user.nom,
+                          nom_user: user.nom_user,
+                          facebookId: user.facebookId,
+                          productes: user.productes,
+                          reputacio: user.reputacio,
+                          intercanvis: user.intercanvis,
+                          preferencies: user.preferencies,
+                          localitat: user.localitat,
+                          path: user.path
                         })
                     }
                 })
