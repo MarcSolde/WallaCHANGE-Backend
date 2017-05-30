@@ -86,7 +86,6 @@ llistaReturn = function(res, err, llista) {
 }
 
 cleanUser = function(user) {
-  console.log("AAAA"+user)
   user._id = undefined
   user.facebookId = undefined
   user.salt = undefined
