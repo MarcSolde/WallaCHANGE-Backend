@@ -30,6 +30,33 @@ var elementSchema = new mongoose.Schema({
         type: [Number], // [<longitude>, <latitude>]
         index: '2d'
     },
+}, {
+    toObject: {
+        transform: function (doc, ret) {
+            delete ret._id
+            delete ret.__v
+            for (var i in ret.imatges) {
+                delete ret.imatges[i]._id
+                delete ret.imatges[i].path
+            }
+            for (var i in ret.comentaris) {
+                delete ret.comentaris[i]._id
+            }
+        }
+    },
+    toJSON: {
+        transform: function (doc, ret) {
+            delete ret._id
+            delete ret.__v
+            for (var i in ret.imatges) {
+                delete ret.imatges[i]._id
+                delete ret.imatges[i].path
+            }
+            for (var i in ret.comentaris) {
+                delete ret.comentaris[i]._id
+            }
+        }
+    }
 })
 
 module.exports = mongoose.model('element', elementSchema)

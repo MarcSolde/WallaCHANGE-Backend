@@ -4,11 +4,25 @@
 
 var elementSvc = require('../services/element.service')
 
+filterResult = function (element) {
+  /*for (i in element.imatges) {
+    console.log(i)
+    delete i._id
+    delete i.path
+  }
+  for (i in element.comentaris) {
+    delete i._id
+  }*/
+  return element
+}
+
 exports.addElement = function (req, res) {
     elementSvc.createElement(req, function (element) {
       elementSvc.saveElement(element, function (err) {
           if (err) res.status(500).send(err.message)
-          else res.status(200).json(element)
+          else {
+            res.status(200).json(element)
+          }
       })
     })
 }
@@ -26,7 +40,10 @@ exports.getOneElement = function (req, res) {
     if (err) {
       console.log("no s'ha guardat l'element")
       res.status(500).send(err.message)
-    } else res.status(200).json(element)
+    } else {
+      filterResult(element)
+      res.status(200).json(element)
+    }
   })
 }
 
@@ -42,7 +59,10 @@ exports.getElementByTitol = function (req, res) {
 exports.getElementById = function (req, res) {
     elementSvc.findElementById(req, function (err, element) {
         if (err) res.status(500).send(err.message)
-        else res.status(200).json(element)
+        else {
+          element.toJSON()
+          res.status(200).json(element)
+        }
     })
 }
 
@@ -52,17 +72,33 @@ exports.getAllElements = function (req, res) {
     //'localitat': req.header('localitat'),
     //'es_temporal': req.header('es_temporal')
   }
-  elementSvc.findElementByTitolLocalitatPublicacio(filter, function (err, elem) {
+  /*elementSvc.findElementByTitolLocalitatPublicacio(filter, function (err, elem) {
     if (err) {
       res.status(500).send(err.message)
-    } else res.status(200).json(elem)
-  })
+    } else {
+      filterResult(element)
+      res.status(200).json(elem)
+    }
+  })*/
 }
 
 exports.getElementsByUserId = function (req, res) {
   elementSvc.findElementsByUserId(req, function(err, elements) {
     if (err) res.status(500).send(err.message)
-    else res.status(200).json(elements)
+    else {
+      for (e in elements) filterResult(e)
+      res.status(200).json(elements)
+    }
+  })
+}
+
+exports.getElementsByLocation = function (req, res) {
+  console.log("hello")
+  elementSvc.findElementsByLocation(req, function(err, elements) {
+    if (err) res.status(500).send(err.message)
+    else {
+      res.status(200).json(elements)
+    }
   })
 }
 
@@ -70,7 +106,10 @@ exports.updateElement = function (req, res) {
     elementSvc.updateElement(req, function (element) {
         elementSvc.saveElement(element, function (err) {
             if (err) res.status(500).send(err.message)
-            else res.status(200).json(element)
+            else {
+              filterResult(element)
+              res.status(200).json(element)
+            }
         })
     })
 }
@@ -78,14 +117,19 @@ exports.updateElement = function (req, res) {
 exports.addComment = function (req, res) {
     elementSvc.addComment(req, function (err, element) {
         if (err) res.status(500).send(err.message)
-        else res.status(200).json(element)
+        else {
+          filterResult(element)
+          res.status(200).json(element)
+        }
     })
 }
 
 exports.addImage = function (req, res) {
     elementSvc.addImage(req, res, function (err, element) {
         if (err) res.status(500).send(err.message)
-        else res.status(200).json(element)
+        else {
+          res.status(200).json(element)
+        }
     })
 }
 
@@ -102,13 +146,13 @@ exports.getImage = function (req, res) {
 exports.deleteComment = function (req, res) {
     elementSvc.deleteComment(req, function (err) {
         if (err) res.status(500).send(err.message)
-        else res.status(200).send("Comentari esborrat.")
+        else res.status(200).send()
     })
 }
 
 exports.deleteImage = function (req, res) {
     elementSvc.deleteImage(req, function (err) {
         if (err) res.status(500).send(err.message)
-        else res.status(200).send("Imatge esborrada.")
+        else res.status(200).send()
     })
 }

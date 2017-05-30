@@ -93,6 +93,21 @@ exports.findElementsByUserId = function(req, callback) {
   })
 }
 
+exports.findElementsByLocation = function (req, callback) {
+    var maxDistance = req.query.distance
+    var coords = []
+    coords[0] = req.query.longitude
+    coords[1] = req.query.latitude
+    element.find({
+        coordenades: {
+            $near: coords,
+            $maxDistance: maxDistance
+        }
+    }, function(err, elements) {
+        callback(err, elements)
+    })
+}
+
 exports.updateElement = function (req, callback) {
   var id = req.params.id
   element.findOne({element_id: id}, function (err, element) {
