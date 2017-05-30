@@ -80,7 +80,7 @@ exports.login = function (password, salt) {
 }
 
 exports.updateUser = function (req, callback) {
-  usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
+  usuari.findOne({id: req.params.id}, function (err, user) {
     if (req.body.password) {
       var pwdHash = saltHashPassword(req.body.password)
       user.password_hash = pwdHash.passwordData
@@ -98,7 +98,7 @@ exports.updateUser = function (req, callback) {
 }
 
 exports.getUser = function (req, callback) {
-  usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
+  usuari.findOne({id: req.params.id}, function (err, user) {
     callback(err, user)
   })
 }
@@ -111,7 +111,8 @@ exports.getAllUsers = function (callback) {
 
 exports.afegirImatge = function (req, res, callback) {
   upload(req, res, function (err) {
-    usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
+    console.log(req.params.nom_user)
+    usuari.findOne({id: req.params.id}, function (err, user) {
       user.path = req.file.path
       user.save()
     })
@@ -120,7 +121,7 @@ exports.afegirImatge = function (req, res, callback) {
 }
 
 exports.getImatge = function (req, callback) {
-  usuari.findOne({nom_user: req.params.nom_user}, function (err, user) {
+  usuari.findOne({id: req.params.id}, function (err, user) {
     callback(err, path.join(__dirname, '/../', user.path))
   })
 }

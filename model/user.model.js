@@ -42,6 +42,7 @@ var userSchema = new mongoose.Schema({
     },
     facebookId: String,
     twitterId: String,
+    id: String
 
 })
 
