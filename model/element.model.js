@@ -3,11 +3,11 @@ mongoose = require('mongoose')
 
 var elementSchema = new mongoose.Schema({
     titol: String,
-    element_id: String,
+    id: String,
     descripcio: String,
     imatges: [{
         path: String,
-        image_id: String
+        id: String
     }],
     user_id: {
         type: String,
@@ -24,7 +24,7 @@ var elementSchema = new mongoose.Schema({
         text: String,
         user_id: String,
         data: Date,
-        comment_id: String
+        id: String
     }],
     coordenades: {
         type: [Number], // [<longitude>, <latitude>]

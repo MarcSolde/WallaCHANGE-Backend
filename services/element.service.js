@@ -25,9 +25,9 @@ var upload = multer({ storage: storage }).array('photo')
 unlinkImage = function (elem, img, callback) {
   element.aggregate([
         {'$unwind': '$imatges'},
-        {'$match': {'element_id': {'$eq': elem}, 'imatges.image_id': {'$eq': img}}},
+        {'$match': {'id': {'$eq': elem}, 'imatges.id': {'$eq': img}}},
     {'$group': {
-        '_id': {'id': '$imatges.image_id', 'path': '$imatges.path'}
+        '_id': {'id': '$imatges.id', 'path': '$imatges.path'}
       }}
   ], function (err, imgs) {
     fs.unlink(path.join(__dirname, '/../', imgs[0]._id.path), function (err) {
@@ -40,7 +40,7 @@ unlinkImage = function (elem, img, callback) {
 exports.createElement = function (req, callback) {
     var elem = new element({
         titol: req.body.titol,
-        element_id: uuid(),
+        id: uuid(),
         descripcio: req.body.descripcio,
         imatges: [],
         user_id: req.body.user_id,
@@ -63,7 +63,7 @@ exports.saveElement = function(element, callback) {
 
 exports.deleteElement = function (req, callback) {
   var id = req.params.id
-  element.findOne({element_id: id}, function (err, element) {
+  element.findOne({id: id}, function (err, element) {
     element.remove(function (err) {
       callback(err)
     })
@@ -81,7 +81,7 @@ exports.findElementByTitolFiltre = function (filter, callback) {
 
 exports.findElementById = function (req, callback) {
     var id = req.params.id
-    element.findOne({element_id: id}, function (err, element) {
+    element.findOne({id: id}, function (err, element) {
         callback(err, element)
     })
 }
@@ -110,7 +110,7 @@ exports.findElementsByLocation = function (req, callback) {
 
 exports.updateElement = function (req, callback) {
   var id = req.params.id
-  element.findOne({element_id: id}, function (err, element) {
+  element.findOne({id: id}, function (err, element) {
     if (req.body.titol) element.titol = req.body.titol
     if (req.body.descripcio) element.descripcio = req.body.descripcio
     if (req.body.tipus_element) element.tipus_element = req.body.tipus_element
@@ -124,8 +124,8 @@ exports.updateElement = function (req, callback) {
 
 exports.addComment = function (req, callback) {
   var id = req.params.id
-  element.findOne({element_id: id}, function (err, element) {
-    var comentari = {text: req.body.text, user_id: req.body.user_id, data: req.body.data, comment_id: uuid()}
+  element.findOne({id: id}, function (err, element) {
+    var comentari = {text: req.body.text, user_id: req.body.user_id, data: req.body.data, id: uuid()}
     element.comentaris.push(comentari)
     element.save()
     callback(err, element)
@@ -136,8 +136,8 @@ exports.deleteComment = function (req, callback) {
   var id = req.params.id
   var o_id = req.params.c_id
   element.update(
-        {element_id: id},
-        { $pull: {'comentaris': {'comment_id': o_id}}}, function (err) {
+        {id: id},
+        { $pull: {'comentaris': {'id': o_id}}}, function (err) {
           callback(err)
         })
 }
@@ -145,9 +145,9 @@ exports.deleteComment = function (req, callback) {
 exports.addImage = function (req, res, callback) {
   upload(req, res, function (err) {
     var id = req.params.id
-    element.findOne({element_id: id}, function (err, element) {
+    element.findOne({id: id}, function (err, element) {
         for (var i in req.files) {
-            var image = { path: req.files[i].path, image_id: uuid()}
+            var image = { path: req.files[i].path, id: uuid()}
             element.imatges.push(image)
           }
         element.save()
@@ -163,8 +163,8 @@ exports.deleteImage = function (req, callback) {
     if (err) callback(err)
     else {
         element.update(
-                {element_id: id},
-                { $pull: {imatges: {image_id: i_id}}}, function (err) {
+                {id: id},
+                { $pull: {imatges: {id: i_id}}}, function (err) {
                   callback(err)
                 })
       }
@@ -176,9 +176,9 @@ exports.getImage = function (req, callback) {
   var img = req.params.i_id
   element.aggregate([
         {'$unwind': '$imatges'},
-        {'$match': {'element_id': {'$eq': id}, 'imatges.image_id': {'$eq': img}}},
+        {'$match': {'id': {'$eq': id}, 'imatges.id': {'$eq': img}}},
     {'$group': {
-        '_id': {'id': '$imatges.image_id', 'path': '$imatges.path'}
+        '_id': {'id': '$imatges.id', 'path': '$imatges.path'}
       }}
   ], function (err, imgs) {
     callback(err, path.join(__dirname, '/../', imgs[0]._id.path))
