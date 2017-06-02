@@ -54,7 +54,7 @@ exports.getElementByTitol = function (req, res) {
       res.status(500).send(err.message)
     } else res.status(200).json(elem)
   })
-}*/
+} */
 
 exports.getElementById = function (req, res) {
     elementSvc.findElementById(req, function (err, element) {
