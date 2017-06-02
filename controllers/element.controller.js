@@ -67,19 +67,19 @@ exports.getElementById = function (req, res) {
 }
 
 exports.getAllElements = function (req, res) {
+  console.log("kakadevakaNOESCRIDA")
   var filter = {
     'titol': req.header('titol')
-    //'localitat': req.header('localitat'),
-    //'es_temporal': req.header('es_temporal')
+    // 'longitud': req.header(),
+    // 'latitud': req.header() 
+    // 'localitat': req.header('localitat'),
+    // 'es_temporal': req.header('es_temporal')
   }
-  /*elementSvc.findElementByTitolLocalitatPublicacio(filter, function (err, elem) {
+  elementSvc.findElementByTitolFiltre(filter, function (err, elem) {
     if (err) {
       res.status(500).send(err.message)
-    } else {
-      filterResult(element)
-      res.status(200).json(elem)
-    }
-  })*/
+    } else res.status(200).json(elem)
+  })
 }
 
 exports.getElementsByUserId = function (req, res) {
@@ -93,7 +93,6 @@ exports.getElementsByUserId = function (req, res) {
 }
 
 exports.getElementsByLocation = function (req, res) {
-  console.log("hello")
   elementSvc.findElementsByLocation(req, function(err, elements) {
     if (err) res.status(500).send(err.message)
     else {
