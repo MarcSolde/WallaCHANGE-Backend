@@ -17,13 +17,16 @@ app.use(function(res, req, next) {
 	next()
 })
 
-var userModel = require('./model/user.model');	
-var elemModel = require('./model/element.model');
+var userModel = require('./model/user.model')
+var elemModel = require('./model/element.model')
+var convModel = require('./model/conversation.model')
+var msgModel = require('./model/message.model')
 
 var router = express.Router()
 
 app.use('/', require('./routes/user.route'))
 app.use('/api', require('./routes/elements.route'))
+app.use('/chat', require('./routes/chat.route'))
 
 app.use(router)
 
