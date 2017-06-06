@@ -2,7 +2,7 @@
 mongoose = require('mongoose')
 
 var messageSchema = new mongoose.Schema({
-	conversationId: {
+	conversation_id: {
 		type: String, //uuid conversation
 		required: true
 	},

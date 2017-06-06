@@ -19,12 +19,19 @@ exports.getConversation = function (req, res) {
 exports.newConversation = function (req, res) {
 	chatSvc.newConversation (req, function (err, convId) {
 		if (err) res.status(500).send(err.message)
-		else res.status(200).json({ conversationId: convId })
+		else res.status(200).json({ conversation_id: convId })
 	})
 }
 
 exports.sendMessage = function (req, res) {
 	chatSvc.addMessage (req, function (err) {
+		if (err) res.status(500).send(err.message)
+		else res.status(200).send()
+	})
+}
+
+exports.deleteConversation = function (req, res) {
+	chatSvc.deleteConversation (req, function (err) {
 		if (err) res.status(500).send(err.message)
 		else res.status(200).send()
 	})

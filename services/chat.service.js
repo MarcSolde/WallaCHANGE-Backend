@@ -15,17 +15,18 @@ exports.newConversation = function (req, callback) {
 	})
 	conv.save(function (err, conv) {
 		var msg = new message({
-			conversationId: conv.id,
+			conversation_id: conv.id,
 			body: req.body.message,
 			author: req.query.from
 		})
-		msg.save(function (err, conv) {
-			callback(err, conv.id)
+		console.log(conv)
+		msg.save(function (err, msg) {
+			callback(err, msg.conversation_id)
 		})
 	}
 		/*if (err) callback(err, null)
 		var msg = new message({
-			conversationId: newConversation.id,
+			conversation_id: newConversation.id,
 			body: req.body.message,
 			author: req.query.from
 		})
@@ -36,7 +37,7 @@ exports.newConversation = function (req, callback) {
 }
 
 exports.getConversation = function (req, callback) {
-	message.find({conversationId: req.params.conversationId})
+	message.find({conversation_id: req.params.conversation_id})
 	.select('createdAt body author')
 	.sort('-createdAt')
 	.exec((err, messages) => {
@@ -46,7 +47,7 @@ exports.getConversation = function (req, callback) {
 
 exports.addMessage = function (req, callback) {
 	var msg = new message({
-		conversationId: req.params.conversationId,
+		conversation_id: req.params.conversation_id,
 		body: req.body.message,
 		author: req.body.author
 	})
@@ -56,23 +57,32 @@ exports.addMessage = function (req, callback) {
 }
 
 exports.getConversations = function (req, callback) {
-	conversation.find({participants: req.params.userId})
+	console.log(req.params.user_id)
+	conversation.find({participants: req.params.user_id})
 	.select('_id')
 	.exec((err, convs) => {
 		if (!err) {
 			const fullConversations = []
 			convs.forEach((conv) => {
-				console.log("hello")
-				message.find({conversationId: conv.id})
+				console.log("hello: "+conv.id)
+				message.find({conversation_id: conv.id})
 				.sort('-createdAt')
 				.limit(1)
 				.exec((err, message) => {
 					fullConversations.push(message)
-					if (fullConversations.length === conversations.length) {
+					if (fullConversations.length === convs.length) {
+						console.log(fullConversations)
 						callback(err, fullConversations)
 					}
 				})
 			})
 		} else callback(err, null)
+	})
+}
+
+exports.deleteConversation = function (req, callback) {
+	message.remove({conversation_id: req.params.conversation_id})
+	conversation.remove({id: req.params.conversation_id}, function (err) {
+		callback(err)
 	})
 }
