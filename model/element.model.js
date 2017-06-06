@@ -14,7 +14,7 @@ var elementSchema = new mongoose.Schema({
         required: true
     },
     data_publicacio: Date,
-    tipus_element: String,
+    tipus_element: Boolean,
     es_temporal: {
         temporalitat: Boolean,
         periode: String
