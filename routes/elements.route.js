@@ -6,13 +6,13 @@ var router = express.Router()
 var elemCtrl = require('../controllers/element.controller')
 
 /* Routes that can be accessed only by authenticated users */
-router.get('/elements', elemCtrl.getAllElements) // get all elements
+router.get('/element', elemCtrl.getAllElements) // get all elements
 router.get('/element/:id', elemCtrl.getElementById) // get element with id = :id
-router.get('/elements/:user_id', elemCtrl.getElementsByUserId) // get elements of a user
-router.get('/location/elements', elemCtrl.getElementsByLocation) // get elements by location
-router.get('/elements/:id/image/:i_id', elemCtrl.getImage) //get element image
+router.get('/element/user/:user_id', elemCtrl.getElementsByUserId) // get elements of a user
+router.get('/location/element', elemCtrl.getElementsByLocation) // get elements by location
+router.get('/element/:id/image/:i_id', elemCtrl.getImage) //get element image
 //router.get('/element/:titol', elemCtrl.getElementByTitol) // get elements with titol = :titol
-router.post('/element/', elemCtrl.addElement) // create element
+router.post('/element', elemCtrl.addElement) // create element
 
 /* Routes that can be accessed only by authenticated & authorized users */
 //THIS ^ NEEDS TO BE IMPLEMENTED!!!

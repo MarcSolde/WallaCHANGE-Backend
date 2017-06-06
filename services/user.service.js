@@ -72,7 +72,7 @@ exports.deleteUser = function (user, callback, res) {
 }
 
 exports.findUser = function (req) {
-  return usuari.findOne({nom_user: req.params.nom_user})
+  return usuari.findOne({id: req.params.user_id})
 }
 
 exports.login = function (password, salt) {
