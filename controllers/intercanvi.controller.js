@@ -18,7 +18,7 @@ exports.crearIntercanvi = function(req, res) {
 exports.modificarIntercanvi = function(req, res) {
 	intercanviSvc.modificarIntercanvi(req, function(intercanvi){
 		intercanviSvc.saveIntercanvi(intercanvi, function(err){
-			jsonReturn(res, err, object)
+			jsonReturn(res, err, intercanvi)
 		})
 	})
 }
