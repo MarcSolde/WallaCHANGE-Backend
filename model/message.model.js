@@ -2,7 +2,7 @@
 mongoose = require('mongoose')
 
 var messageSchema = new mongoose.Schema({
-	conversation_id: {
+	idIntercanvi: {
 		type: String, //uuid conversation
 		required: true
 	},
@@ -11,24 +11,24 @@ var messageSchema = new mongoose.Schema({
 		required: true
 	},
 	author: {
-		type: String // user uuid
-		//required: true
+		type: String, // user uuid
+		required: true
 	}
+}, {
+    toObject: {
+        transform: function (doc, ret) {
+            delete ret._id
+            delete ret.__v
+        }
+    },
+    toJSON: {
+        transform: function (doc, ret) {
+            delete ret._id
+            delete ret.__v
+        }
+    }
 }, {
 	timestamps: true
-}, {
-	toObject: {
-		transform: function (doc, ret) {
-			delete ret._id
-			delete ret.__v
-		}
-	},
-	toJSON: {
-		transform: function (doc, ret) {
-			delete ret._id
-			delete ret.__v
-		}
-	}
 })
 
 module.exports = mongoose.model('message', messageSchema)

@@ -3,41 +3,30 @@
 'use strict'
 
 var mongoose = require('mongoose')
-var conversation = mongoose.model('conversation')
 var message = mongoose.model('message')
 var mongo = require('mongodb')
 const uuid = require('uuid/v4')
 
-exports.newConversation = function (req, callback) {
+/*exports.newConversation = function (req, callback) {
 	var conv = new conversation({
-		participants: [req.query.from, req.query.to],
+		participants: req.body.participants, // aqui potser he de fer un for
 		id: uuid()
 	})
 	conv.save(function (err, conv) {
 		var msg = new message({
-			conversation_id: conv.id,
+			idIntercanvi: conv.id,
 			body: req.body.message,
 			author: req.query.from
 		})
 		console.log(conv)
 		msg.save(function (err, msg) {
-			callback(err, msg.conversation_id)
+			callback(err, msg.idIntercanvi)
 		})
-	}
-		/*if (err) callback(err, null)
-		var msg = new message({
-			conversation_id: newConversation.id,
-			body: req.body.message,
-			author: req.query.from
-		})
-		msg.save((err, newMessage) => {
-			callback(err, newConversation.id)
-		})*/
-	)
-}
+	})
+}*/
 
-exports.getConversation = function (req, callback) {
-	message.find({conversation_id: req.params.conversation_id})
+exports.getChat = function (req, callback) {
+	message.find({idIntercanvi: req.params.idIntercanvi})
 	.select('createdAt body author')
 	.sort('-createdAt')
 	.exec((err, messages) => {
@@ -47,7 +36,7 @@ exports.getConversation = function (req, callback) {
 
 exports.addMessage = function (req, callback) {
 	var msg = new message({
-		conversation_id: req.params.conversation_id,
+		idIntercanvi: req.params.idIntercanvi,
 		body: req.body.message,
 		author: req.body.author
 	})
@@ -56,8 +45,7 @@ exports.addMessage = function (req, callback) {
 	})
 }
 
-exports.getConversations = function (req, callback) {
-	console.log(req.params.user_id)
+/*exports.getConversations = function (req, callback) {
 	conversation.find({participants: req.params.user_id})
 	.select('_id')
 	.exec((err, convs) => {
@@ -65,11 +53,13 @@ exports.getConversations = function (req, callback) {
 			const fullConversations = []
 			convs.forEach((conv) => {
 				console.log("hello: "+conv.id)
-				message.find({conversation_id: conv.id})
+				message.find({idIntercanvi: conv.id})
 				.sort('-createdAt')
 				.limit(1)
 				.exec((err, message) => {
-					fullConversations.push(message)
+					item = {conversation: conv, message: message}
+					console.log(item)
+					fullConversations.push(item)
 					if (fullConversations.length === convs.length) {
 						console.log(fullConversations)
 						callback(err, fullConversations)
@@ -78,11 +68,10 @@ exports.getConversations = function (req, callback) {
 			})
 		} else callback(err, null)
 	})
-}
+}*/
 
-exports.deleteConversation = function (req, callback) {
-	message.remove({conversation_id: req.params.conversation_id})
-	conversation.remove({id: req.params.conversation_id}, function (err) {
+exports.deleteChat = function (req, callback) {
+	message.remove({idIntercanvi: req.params.idIntercanvi}, function (err) {
 		callback(err)
 	})
 }

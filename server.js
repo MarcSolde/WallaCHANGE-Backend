@@ -19,7 +19,6 @@ app.use(function(res, req, next) {
 
 var userModel = require('./model/user.model')
 var elemModel = require('./model/element.model')
-var convModel = require('./model/conversation.model')
 var msgModel = require('./model/message.model')
 
 var router = express.Router()
