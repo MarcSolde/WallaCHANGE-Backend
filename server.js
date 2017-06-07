@@ -24,6 +24,7 @@ var router = express.Router()
 
 app.use('/', require('./routes/user.route'))
 app.use('/api', require('./routes/elements.route'))
+app.user('/intercanvi', require('./routes/intercanvi.route'))
 
 app.use(router)
 

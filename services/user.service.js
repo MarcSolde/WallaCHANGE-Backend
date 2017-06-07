@@ -72,7 +72,7 @@ exports.deleteUser = function (user, callback, res) {
 }
 
 exports.findUser = function (req) {
-  return usuari.findOne({id: req.params.user_id})
+  return usuari.findOne({id: req.params.id})
 }
 
 exports.login = function (password, salt) {
@@ -132,7 +132,7 @@ exports.getUserBySearch = function (req, callback) {
       {'$match': {'preferencies': req.headers['preferencies']}},
       {'$unwind': '$preferencies'},
       {'$group': {
-        '_id': '$_id',
+        'id': '$id',
         'nom_user': {'$first': '$nom_user'}
       }}
     ],
