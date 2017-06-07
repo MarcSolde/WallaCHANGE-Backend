@@ -1,7 +1,8 @@
 var mongoose = require('mongoose')
-var chatCtrl = require('../controllers/chat.controller.js')
 var intercanvi = mongoose.model('intercanvi')
 'use strict'
+const uuidV4 = require('uuid/v4')
+var userCtrl = require('../controllers/user.controller')
 
 exports.getIntercanvi = function (req, callback) {
 	intercanvi.findOne({idIntercanvi: req.params.id}, function(err, intercanvi) {
@@ -9,34 +10,40 @@ exports.getIntercanvi = function (req, callback) {
 	})
 }
 
+exports.getAllIntercanvis = function (req, callback) {
+	intercanvi.find({ $or: [{id1: {$eq: req.params.user_id}}, {id2: {$eq: req.params.user_id}}]},
+		function(err, intercanvis) {
+			callback(err, intercanvis)
+		})
+}
+
 exports.crearIntercanvi = function (req, callback) {
-	var intercanvi = new intercanvi({
+	var intcanvi = new intercanvi({
 		id1: req.body.id1,
 		id2: req.body.id2,
 		idProd1: req.body.idProd1,
 		idProd2: req.body.idProd2,
 		idIntercanvi: uuidV4(),
-		//TODO: Implementar xat
 		acceptat: req.body.acceptat,
 		confirmat: req.body.confirmat,
 		temporal: req.body.temporal,
 		dataInici: req.body.dataInici,
 		dataFi: req.body.dataFi
 	})
-	callback(intercanvi)
+	callback(intcanvi)
 }
 
-exports.saveIntercanvi = function (req, callback) {
-	intercanvi.save(function(err, intercanvi) {
+exports.saveIntercanvi = function (intercanvi, callback) {
+	intercanvi.save(function(err) {
 		callback(err)
 	})
 }
 
 exports.modificarIntercanvi = function (req, callback) {
 	intercanvi.findOne({idIntercanvi: req.params.id}, function(err, intercanvi) {
-		//TODO:tema del xat
 		if (req.body.acceptat) intercanvi.acceptat = req.body.acceptat
 		if (req.body.confirmat) intercanvi.confirmat = req.body.confirmat
+		callback(intercanvi)
 	})
 }
 

@@ -6,6 +6,12 @@ exports.getIntercanvi = function(req, res) {
 	})
 }
 
+exports.getAllIntercanvis = function (req, res) {
+	intercanviSvc.getAllIntercanvis(req, function(err, intercanvis) {
+		jsonReturn(res, err, intercanvis)
+	})
+}
+
 exports.crearIntercanvi = function(req, res) {
 	var intercanvi = intercanviSvc.crearIntercanvi(req, function(intercanvi) {
 		intercanviSvc.saveIntercanvi(intercanvi, function(err) {
@@ -28,6 +34,7 @@ exports.deleteIntercanvi = function (req, res) {
 		jsonReturn(res, err, null)
 	})
 }
+
 jsonReturn = function(res, err, object){
   if (err) res.status(500).send(err.message)
   else res.status(200).json(object)

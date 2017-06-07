@@ -40,6 +40,10 @@ var userSchema = new mongoose.Schema({
         type: Number,
         default: 50
     },
+    num_valoracions: {
+        type: Number,
+        default: 0
+    },
     facebookId: String,
     twitterId: String,
     id: String
@@ -53,6 +57,7 @@ var userSchema = new mongoose.Schema({
             delete ret.twitterId
             delete ret.salt
             delete ret.password_hash
+            delete ret.num_valoracions
         }
     },
     toJSON: {
@@ -63,6 +68,7 @@ var userSchema = new mongoose.Schema({
             delete ret.twitterId
             delete ret.salt
             delete ret.password_hash
+            delete ret.num_valoracions
         }
     }
 })

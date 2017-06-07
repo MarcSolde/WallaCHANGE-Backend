@@ -20,13 +20,14 @@ app.use(function(res, req, next) {
 var userModel = require('./model/user.model')
 var elemModel = require('./model/element.model')
 var msgModel = require('./model/message.model')
+var intercanviModel = require('./model/intercanvi.model')
 
 var router = express.Router()
 
 app.use('/', require('./routes/user.route'))
 app.use('/api', require('./routes/elements.route'))
 app.use('/chat', require('./routes/chat.route'))
-app.user('/intercanvi', require('./routes/intercanvi.route'))
+app.use('/intercanvi', require('./routes/intercanvi.route'))
 
 app.use(router)
 

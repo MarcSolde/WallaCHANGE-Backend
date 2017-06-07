@@ -16,7 +16,7 @@ var intercanviSchema = new mongoose.Schema({
 	idProd2: {
 		type: String,
 		required: true
-	}
+	},
 	idIntercanvi: {
 		type: String,
 	},
@@ -33,7 +33,20 @@ var intercanviSchema = new mongoose.Schema({
 		default: false
 	},
 	dataInici: Date,
-	dataFi: Date
+	dataFi: Date,
+}, {
+    toObject: {
+        transform: function (doc, ret) {
+            delete ret._id
+            delete ret.__v
+        }
+    },
+    toJSON: {
+        transform: function (doc, ret) {
+            delete ret._id
+            delete ret.__v
+        }
+    }
 })
 
 module.exports = mongoose.model('intercanvi', intercanviSchema)

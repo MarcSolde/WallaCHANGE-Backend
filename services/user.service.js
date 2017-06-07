@@ -41,6 +41,16 @@ function saltHashPassword (userpassword) {
   }
 }
 
+var updateRating = function (usr, rating) {
+  user.findOne({id: usr.id}, function (user) {
+    usr.num_valoracions += 1
+    console.log(usr.num_valoracions)
+    usr.reputacio = (user.reputacio+rating)/usr.num_valoracions
+    console.log(usr.reputacio)
+  })
+  return usr
+}
+
 exports.createUser = function (req) {
   var pwdHash = saltHashPassword(req.body.password)
   var user = new usuari({
@@ -91,7 +101,9 @@ exports.updateUser = function (req, callback) {
     if (req.body.preferencies)user.preferencies = req.body.preferencies
     if (req.body.productes)user.productes = req.body.productes
     if (req.body.intercanvis)user.intercanvis = req.body.intercanvis
-    if (req.body.reputacio)user.reputacio = req.body.reputacio
+    if (req.body.reputacio) {
+      user = updateRating(user, req.body.reputacio)
+    }
 
     callback(user)
   })
