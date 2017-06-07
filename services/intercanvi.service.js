@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 var intercanvi = mongoose.model('intercanvi')
 'use strict'
 const uuidV4 = require('uuid/v4')
+var userCtrl = require('../controllers/user.controller')
 
 exports.getIntercanvi = function (req, callback) {
 	intercanvi.findOne({idIntercanvi: req.params.id}, function(err, intercanvi) {

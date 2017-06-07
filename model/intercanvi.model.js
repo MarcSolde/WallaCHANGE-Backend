@@ -33,7 +33,7 @@ var intercanviSchema = new mongoose.Schema({
 		default: false
 	},
 	dataInici: Date,
-	dataFi: Date
+	dataFi: Date,
 }, {
     toObject: {
         transform: function (doc, ret) {

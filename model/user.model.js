@@ -40,6 +40,10 @@ var userSchema = new mongoose.Schema({
         type: Number,
         default: 50
     },
+    num_valoracions: {
+        type: Number,
+        default: 0
+    },
     facebookId: String,
     twitterId: String,
     id: String
