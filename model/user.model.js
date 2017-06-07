@@ -44,6 +44,27 @@ var userSchema = new mongoose.Schema({
     twitterId: String,
     id: String
 
+}, {
+    toObject: {
+        transform: function (doc, ret) {
+            delete ret._id
+            delete ret.__v
+            delete ret.facebookId
+            delete ret.twitterId
+            delete ret.salt
+            delete ret.password_hash
+        }
+    },
+    toJSON: {
+        transform: function (doc, ret) {
+            delete ret._id
+            delete ret.__v
+            delete ret.facebookId
+            delete ret.twitterId
+            delete ret.salt
+            delete ret.password_hash
+        }
+    }
 })
 
 module.exports = mongoose.model('usuari', userSchema)

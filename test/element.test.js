@@ -44,22 +44,22 @@ describe('Element', function () {
     token: authToken
   })
 					.end(function (err, res) {
-  expect(err).to.be.null
-  expect(res).to.have.status(200)
-  expect(res).to.be.json
-  expect(res).to.have.property('body')
-  expect(res.body).to.have.property('titol')
-  expect(res.body.titol).to.equal('Bicicleta')
-  expect(res.body).to.have.property('descripcio')
-  expect(res.body.descripcio).to.equal('bicicleta roja')
-  expect(res.body).to.have.property('nom_user')
-  expect(res.body.nom_user).to.equal('CCC2')
-  elemID = res.body._id
-  done()
-})
-})
-})
-    })
+						expect(err).to.be.null
+						expect(res).to.have.status(200)
+						expect(res).to.be.json
+						expect(res).to.have.property('body')
+						expect(res.body).to.have.property('titol')
+						expect(res.body.titol).to.equal('Bicicleta')
+						expect(res.body).to.have.property('descripcio')
+						expect(res.body.descripcio).to.equal('bicicleta roja')
+						expect(res.body).to.have.property('user_id')
+						expect(res.body.nom_user).to.equal('CCC2')
+						elemID = res.body.element_id
+						done()
+					})
+				})
+			})
+		})
 
 		// are there any exceptions to adding elements (?)
   })

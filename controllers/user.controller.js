@@ -3,6 +3,7 @@ var userSvc = require('../services/user.service')
 exports.addUser = function (req, res) {
   var usuari = userSvc.createUser(req)
   userSvc.saveUser(usuari, function (err, nErr) {
+    console.log(usuari)
     jsonReturn(res, err, usuari)
   })
 }
@@ -26,7 +27,6 @@ exports.getUser = function (req, res) {
   userSvc.getUser(req, function (err, user) {
     if (err) res.status(500).send(err.message)
     else {
-      cleanUser(user)
       res.status(200).send(user)
     }
   })
@@ -70,7 +70,6 @@ stdReturn = function(res, err, object) {
 }
 
 jsonReturn = function(res, err, object){
-  cleanUser(object)
   if (err) res.status(500).send(err.message)
   else res.status(200).json(object)
 }
@@ -78,19 +77,9 @@ jsonReturn = function(res, err, object){
 llistaReturn = function(res, err, llista) {
   if (err) res.status(500).send(err.message)
   else {
-    for (var i = llista.length - 1; i >= 0; i--) {
-      cleanUser(llista[i])
-    }
     res.status(200).send(llista)
   }
 }
 
-cleanUser = function(user) {
-  user._id = undefined
-  user.facebookId = undefined
-  user.salt = undefined
-  user.password_hash = undefined
-  return user
-}
 
   
