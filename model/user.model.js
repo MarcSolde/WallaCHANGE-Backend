@@ -57,6 +57,7 @@ var userSchema = new mongoose.Schema({
             delete ret.twitterId
             delete ret.salt
             delete ret.password_hash
+            delete ret.num_valoracions
         }
     },
     toJSON: {
@@ -67,6 +68,7 @@ var userSchema = new mongoose.Schema({
             delete ret.twitterId
             delete ret.salt
             delete ret.password_hash
+            delete ret.num_valoracions
         }
     }
 })
