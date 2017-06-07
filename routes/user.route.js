@@ -8,17 +8,17 @@ router.use(function (req, res, next) {
   next()
 })
 
-router.post('/addUser', userCtrl.addUser)
+router.post('/user', userCtrl.addUser)
 router.get('/user', userCtrl.getUserBySearch)
 router.get('/user/:id', userCtrl.getUser)
-router.get('/allUsers', userCtrl.getAllUsers)
-router.get('/:id/imatge', userCtrl.getImatge)
+router.get('/users', userCtrl.getAllUsers)
+router.get('/user/:id/image', userCtrl.getImatge)
 router.post('/login', auth.login)
 router.post('/loginFB', auth.loginFB)
 router.use(authCtrl.checkToken)
 // Auth needed
-router.post('/imatge/:id', userCtrl.afegirImatge)
-router.delete('/deleteUser/:nom_user', userCtrl.deleteUser)
-router.put('/updateUser/:id', userCtrl.updateUser)
+router.post('/image/:id', userCtrl.afegirImatge)
+router.delete('/user/:id', userCtrl.deleteUser)
+router.put('/user/:id', userCtrl.updateUser)
 
 module.exports = router

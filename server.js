@@ -26,6 +26,7 @@ var router = express.Router()
 app.use('/', require('./routes/user.route'))
 app.use('/api', require('./routes/elements.route'))
 app.use('/chat', require('./routes/chat.route'))
+app.user('/intercanvi', require('./routes/intercanvi.route'))
 
 app.use(router)
 
