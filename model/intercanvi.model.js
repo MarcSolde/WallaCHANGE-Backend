@@ -9,15 +9,17 @@ var intercanviSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	idProd: {
+	idProd1: {
 		type: String,
 		required: true
 	},
+	idProd2: {
+		type: String,
+		required: true
+	}
 	idIntercanvi: {
 		type: String,
-		required: true
 	},
-	idXat: String,
 	acceptat: {
 		type: Boolean,
 		default: false

@@ -7,7 +7,6 @@ exports.getIntercanvi = function(req, res) {
 }
 
 exports.crearIntercanvi = function(req, res) {
-	//Callback problems???
 	var intercanvi = intercanviSvc.crearIntercanvi(req, function(intercanvi) {
 		intercanviSvc.saveIntercanvi(intercanvi, function(err) {
 			jsonReturn(res, err, intercanvi)
@@ -25,7 +24,9 @@ exports.modificarIntercanvi = function(req, res) {
 }
 
 exports.deleteIntercanvi = function (req, res) {
-	// body...
+	intercanviSvc.deleteIntercanvi(req, function(err) {
+		jsonReturn(res, err, null)
+	})
 }
 jsonReturn = function(res, err, object){
   if (err) res.status(500).send(err.message)
