@@ -27,10 +27,10 @@ var chat = io
 
 
 
-app.get('/chat2/:id', function (req, res) {
+/*app.get('/chat2/:id', function (req, res) {
   res.sendfile(__dirname + '/index.html');
   //io.to('room-'+req.params.id).emit('msg', 'que pasa negro')
-});
+});*/
 /////
 
 app.use(bodyParser.urlencoded({extended: false}))
