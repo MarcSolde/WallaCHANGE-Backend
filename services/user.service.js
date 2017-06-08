@@ -139,14 +139,16 @@ exports.getImatge = function (req, callback) {
 }
 
 exports.getUserBySearch = function (req, callback) {
-  console.log(req.headers.preferencies)
-  usuari.aggregate(
-    [
-      {'$match': {'preferencies': req.headers.preferencies}},
+  usuari.aggregate([
       {'$unwind': '$preferencies'},
+      {'$match': {'preferencies': req.headers.preferencies}},
       {'$group': {
-        'id': '$id',
-        'nom_user': {'$first': '$nom_user'}
+        '_id': {'id': '$id',
+                'nom_user': '$nom_user',
+                'imatge': '$path',
+                'preferencies': '$preferencies',
+                'reputacio': '$reputacio'
+               }
       }}
     ],
     function (err, llista) {
