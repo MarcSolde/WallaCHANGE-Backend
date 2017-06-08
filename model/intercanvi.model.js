@@ -49,4 +49,6 @@ var intercanviSchema = new mongoose.Schema({
     }
 })
 
+intercanviSchema.index({id1:1, id2:1, idProd1:1, idProd2:1}, {unique: true});
+
 module.exports = mongoose.model('intercanvi', intercanviSchema)
