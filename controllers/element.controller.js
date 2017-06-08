@@ -68,15 +68,14 @@ exports.getElementById = function (req, res) {
 
 exports.getAllElements = function (req, res) {
   var tags = req.header('tags').split(', ')
-  
   console.log(tags)
   var filter = {
     'titol': req.header('titol'),
-    'tags': tags
+    'tags': tags,
     // 'longitud': req.header(),
-    // 'latitud': req.header() 
-    'localitat': req.header('localitat'),
-    'es_temporal': req.header('es_temporal')
+    // 'latitud': req.header(),
+    'es_producte': req.header('es_producte'),
+    'es_temporal': req.header('temporalitat')
   }
   elementSvc.findElementByTitolFiltre(filter, function (err, elem) {
     if (err) {

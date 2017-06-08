@@ -71,23 +71,35 @@ exports.deleteElement = function (req, callback) {
 }
 
 exports.findElementByTitolFiltre = function (filter, callback) {
-  if (filter.tags[0] == ""){
+  if (filter.tags[0] == "") {
     console.log("HOLA PELOTA")
     console.log(filter.tags[0])
-    element.find({titol: {'$regex': filter.titol}, },
-    null,
-    // { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },   
-    // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
-    {sort: {data_publicacio: -1}},
-    function (err, elem) { callback(err, elem) })
+    element.aggregate([
+      {'$match': {titol: {'$regex': filter.titol}, 'tipus_element': filter.es_producte}},
+      {'$unwind': '$es_temporal'},
+      {'$match': {'es_temporal.temporalitat': filter.es_temporal}},
+      {'$group': {
+        '_id': {'id': '$id', 'titol': '$titol', 'descripcio': 'descripcio', 'imatges': '$imatges', 
+          'user_id': '$user_id', 'data_publicacio': '$data_publicacio', 'tipus_element': '$tipus_element',
+          'es_temporal': '$es_temporal', 'tags': '$tags', 'comentaris': '$comentaris', 'coordenades': '$coordenades'
+        }
+      }},
+      {'$sort': {'data_publicacio': -1}}
+    ], function (err, elem) { callback(err, elem) })
   }
   else {
-    element.find({titol: {'$regex': filter.titol}, tags: {'$in': filter.tags}},
-    null,
-    // { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },   
-    // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
-    {sort: {data_publicacio: -1}},
-    function (err, elem) { callback(err, elem) })
+        element.aggregate([
+      {'$match': {titol: {'$regex': filter.titol}, 'tipus_element': filter.es_producte, 'tags': {'$in': filter.tags}}},
+      {'$unwind': '$es_temporal'},
+      {'$match': {'es_temporal.temporalitat': filter.es_temporal}},
+      {'$group': {
+        '_id': {'id': '$id', 'titol': '$titol', 'descripcio': 'descripcio', 'imatges': '$imatges', 
+          'user_id': '$user_id', 'data_publicacio': '$data_publicacio', 'tipus_element': '$tipus_element',
+          'es_temporal': '$es_temporal', 'tags': '$tags', 'comentaris': '$comentaris', 'coordenades': '$coordenades'
+        }
+      }},
+      {'$sort': {'data_publicacio': -1}}
+    ], function (err, elem) { callback(err, elem) })
   }
 }
 
