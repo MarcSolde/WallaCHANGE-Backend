@@ -67,7 +67,8 @@ exports.getElementById = function (req, res) {
 }
 
 exports.getAllElements = function (req, res) {
-  var tags = req.header('tags').split(',')
+  var tags = req.header('tags').split(', ')
+  
   console.log(tags)
   var filter = {
     'titol': req.header('titol')
