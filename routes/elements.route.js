@@ -5,6 +5,8 @@ var express = require('express')
 var router = express.Router()
 var elemCtrl = require('../controllers/element.controller')
 
+router.get('/tags', elemCtrl.getAllTags) // get all tags
+
 /* Routes that can be accessed only by authenticated users */
 router.get('/element', elemCtrl.getAllElements) // get all elements
 router.get('/element/:id', elemCtrl.getElementById) // get element with id = :id

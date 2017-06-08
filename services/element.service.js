@@ -184,3 +184,15 @@ exports.getImage = function (req, callback) {
     callback(err, path.join(__dirname, '/../', imgs[0]._id.path))
   })
 }
+
+exports.getTags = function (callback){
+  element.aggregate([
+    {'$unwind': '$tags'},
+    {'$group': {
+      '_id': '$tags'
+    }}
+    ], function (err, llista) {
+      console.log(llista)
+      callback(err, llista)
+    })
+}

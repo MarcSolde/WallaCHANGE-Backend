@@ -67,7 +67,6 @@ exports.getElementById = function (req, res) {
 }
 
 exports.getAllElements = function (req, res) {
-  console.log("kakadevakaNOESCRIDA")
   var filter = {
     'titol': req.header('titol')
     // 'longitud': req.header(),
@@ -154,4 +153,11 @@ exports.deleteImage = function (req, res) {
         if (err) res.status(500).send(err.message)
         else res.status(200).send()
     })
+}
+
+exports.getAllTags = function (req, res) {
+  console.log("hey que paxe tagones")
+  elementSvc.getTags (function(err, llistaTags) {
+    llistaReturn(res, err, llistaTags)
+  })
 }
