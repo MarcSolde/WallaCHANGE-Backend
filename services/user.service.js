@@ -152,7 +152,6 @@ exports.getUserBySearch = function (req, callback) {
       {'$project': {_id: 0, id: '$_id.id', nom_user: '$_id.nom_user', path: '$_id.path', reputacio: '$_id.reputacio', preferencies: '$preferencies'}}
     ],
     function (err, llista) {
-      console.log(llista)
       callback(err, llista)
     })
 }
