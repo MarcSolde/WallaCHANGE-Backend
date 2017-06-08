@@ -145,7 +145,7 @@ exports.getUserBySearch = function (req, callback) {
       {'$group': {
         '_id': {'id': '$id',
                 'nom_user': '$nom_user',
-                'imatge': '$path',
+                'path': '$path',
                 'preferencies': '$preferencies',
                 'reputacio': '$reputacio'
                }
