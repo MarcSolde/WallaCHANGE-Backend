@@ -71,12 +71,12 @@ exports.getAllElements = function (req, res) {
   
   console.log(tags)
   var filter = {
-    'titol': req.header('titol')
-    // 'tags': array
+    'titol': req.header('titol'),
+    'tags': tags
     // 'longitud': req.header(),
     // 'latitud': req.header() 
-    // 'localitat': req.header('localitat'),
-    // 'es_temporal': req.header('es_temporal')
+    'localitat': req.header('localitat'),
+    'es_temporal': req.header('es_temporal')
   }
   elementSvc.findElementByTitolFiltre(filter, function (err, elem) {
     if (err) {

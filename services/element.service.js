@@ -71,12 +71,24 @@ exports.deleteElement = function (req, callback) {
 }
 
 exports.findElementByTitolFiltre = function (filter, callback) {
-  element.find({titol: {'$regex': filter.titol}, tags: {'$in': filter.tags}},
-  null,
-  // { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },   
-  // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
-  {sort: {data_publicacio: -1}},
-  function (err, elem) { callback(err, elem) })
+  if (filter.tags[0] == ""){
+    console.log("HOLA PELOTA")
+    console.log(filter.tags[0])
+    element.find({titol: {'$regex': filter.titol}, },
+    null,
+    // { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },   
+    // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
+    {sort: {data_publicacio: -1}},
+    function (err, elem) { callback(err, elem) })
+  }
+  else {
+    element.find({titol: {'$regex': filter.titol}, tags: {'$in': filter.tags}},
+    null,
+    // { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },   
+    // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
+    {sort: {data_publicacio: -1}},
+    function (err, elem) { callback(err, elem) })
+  }
 }
 
 exports.findElementById = function (req, callback) {
