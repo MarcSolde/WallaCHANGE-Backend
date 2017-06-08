@@ -14,6 +14,7 @@ var chat = io
 
 	socket.on('msg', function(msg){
 		console.log('We got a msg! :'+msg.msg)
+		console.log('The msg will be delivered to :'+mdg.room)
 		io.sockets.in(msg.room).emit('msg', msg.msg)
 	})
 	socket.on('disconnect', function(){
