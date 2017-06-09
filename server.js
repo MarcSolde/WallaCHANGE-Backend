@@ -57,7 +57,7 @@ var msgModel = require('./model/message.model')
 var intercanviModel = require('./model/intercanvi.model')
 
 var router = express.Router()
-
+app.use('/static',express.static('uploads'))
 app.use('/', require('./routes/user.route'))
 app.use('/api', require('./routes/elements.route'))
 app.use('/chat', require('./routes/chat.route'))
