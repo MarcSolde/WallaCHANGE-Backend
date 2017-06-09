@@ -39,7 +39,8 @@ var elementSchema = new mongoose.Schema({
             delete ret.__v
             for (var i in ret.imatges) {
                 delete ret.imatges[i]._id
-                delete ret.imatges[i].path
+                //delete ret.imatges[i].path
+                //Ho hem esborrat ja que necessitavem de l'extensio de l'arxiu i aquesta era la manera mes ràpida
             }
             for (var i in ret.comentaris) {
                 delete ret.comentaris[i]._id
@@ -54,7 +55,7 @@ var elementSchema = new mongoose.Schema({
             delete ret.es_temporal2
             for (var i in ret.imatges) {
                 delete ret.imatges[i]._id
-                delete ret.imatges[i].path
+                //delete ret.imatges[i].path
             }
             for (var i in ret.comentaris) {
                 delete ret.comentaris[i]._id

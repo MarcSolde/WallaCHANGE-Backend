@@ -6,7 +6,7 @@ var elementSvc = require('../services/element.service')
 
 filterResult = function (element) {
   /*for (i in element.imatges) {
-    console.log(i)
+    //console.log(i)
     delete i._id
     delete i.path
   }
@@ -38,7 +38,7 @@ exports.getOneElement = function (req, res) {
   var element = elementSvc.createElement(req)
   elementSvc.saveElement(element, function (err, nErr) {
     if (err) {
-      console.log("no s'ha guardat l'element")
+      //console.log("no s'ha guardat l'element")
       res.status(500).send(err.message)
     } else {
       filterResult(element)
@@ -67,8 +67,9 @@ exports.getElementById = function (req, res) {
 }
 
 exports.getAllElements = function (req, res) {
+  //console.log("kakadevakaNOESCRIDA")
   var tags = req.header('tags').split(', ')
-  console.log(tags)
+  //console.log(tags)
   var filter = {
     'titol': req.header('titol'),
     'tags': tags,

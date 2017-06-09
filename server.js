@@ -4,8 +4,42 @@ var bodyParser = require('body-parser')
 var methodOverride = require('method-override')
 var mongoose = require('mongoose')
 
-//  var config = require('./config/config')
-//  var jwt = require('jsonwebtoken')
+
+///////////
+var io =require('socket.io')(80)
+console.log('Sockets on :80')
+var chat = io
+.on('connection', function(socket){
+	/*socket.emit('msg', {
+		msg: 'Welcome!',
+		author: 'Server'
+	})*/
+
+	socket.on('msg', function(msg){
+		console.log('We got a msg! :'+msg.msg)
+		console.log('The msg will be delivered to :'+msg.room)
+		console.log('The msg is from '+msg.author)
+		io.sockets.in(msg.room).emit('msg', {
+			msg: msg.msg,
+			author: msg.author
+		})
+	})
+	socket.on('disconnect', function(){
+		console.log('a user d/c\'d')
+	})
+	socket.on('room', function(room){
+		socket.join(room)
+	})
+
+})
+
+
+
+app.get('/chat2/:id', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
+  //io.to('room-'+req.params.id).emit('msg', 'que pasa negro')
+});
+/////
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
