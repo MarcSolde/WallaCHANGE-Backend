@@ -50,6 +50,8 @@ var elementSchema = new mongoose.Schema({
         transform: function (doc, ret) {
             delete ret._id
             delete ret.__v
+            delete ret.tipus_element2
+            delete ret.es_temporal2
             for (var i in ret.imatges) {
                 delete ret.imatges[i]._id
                 delete ret.imatges[i].path
