@@ -65,6 +65,12 @@ exports.getUserBySearch = function(req, res) {
   })
 }
 
+exports.getUserByName = function (req, res) {
+  userSvc.getUserByName(req, function(err, llistaUsers) {
+    llistaReturn(res, err, llistaUsers)
+  })
+}
+
 stdReturn = function(res, err, object) {
 
 }
