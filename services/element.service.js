@@ -84,7 +84,7 @@ exports.deleteElement = function (req, callback) {
 }
 
 exports.findElementByTitolFiltre = function (filter, callback) {
-  if (filter.tags[0] == "fin"){
+  if (filter.tags[0] == "fin" || filter.tags[0] == ""){
     console.log("FILTER TITOL")
     console.log(filter.titol)
     console.log("FILTER es_producte")
