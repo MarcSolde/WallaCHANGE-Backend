@@ -67,15 +67,19 @@ exports.getElementById = function (req, res) {
 }
 
 exports.getAllElements = function (req, res) {
-  console.log("kakadevakaNOESCRIDA")
+  var tags = req.header('tags').split(', ')
+  console.log(tags)
   var filter = {
-    'titol': req.header('titol')
+    'titol': req.header('titol'),
+    'tags': tags,
     // 'longitud': req.header(),
-    // 'latitud': req.header() 
-    // 'localitat': req.header('localitat'),
-    // 'es_temporal': req.header('es_temporal')
-  }
-  elementSvc.findElementByTitolFiltre(filter, function (err, elem) {
+    // 'latitud': req.header(),
+    'es_producte': req.header('es_producte'),
+    'es_temporal': req.header('temporalitat')
+  }    
+  console.log("LA PELOTETA ESTA AQUI")
+  console.log(filter)
+  elementSvc.findElementByTitolFiltre(filter,function(err,elem){
     if (err) {
       res.status(500).send(err.message)
     } else res.status(200).json(elem)
@@ -154,4 +158,11 @@ exports.deleteImage = function (req, res) {
         if (err) res.status(500).send(err.message)
         else res.status(200).send()
     })
+}
+
+exports.getAllTags = function (req, res) {
+  console.log("hey que paxe tagones")
+  elementSvc.getTags (function(err, llistaTags) {
+    llistaReturn(res, err, llistaTags)
+  })
 }
