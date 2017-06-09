@@ -45,7 +45,7 @@ exports.createElement = function (req, callback) {
     tipus_element2_aux = 'producte'
   }  else tipus_element2_aux = 'experiencia'
 
-  if (req.body.es_temporal == true) {
+  if (req.body.es_temporal.temporalitat == true) {
     es_temporal2_aux = 'temporal'
   } else es_temporal2_aux = 'permanent'
 
