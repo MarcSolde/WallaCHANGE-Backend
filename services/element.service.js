@@ -38,6 +38,17 @@ unlinkImage = function (elem, img, callback) {
 
 
 exports.createElement = function (req, callback) {
+  var tipus_element2_aux
+  var es_temporal2_aux
+
+  if (req.body.tipus_element == true) {
+    tipus_element2_aux = 'producte'
+  }  else tipus_element2_aux = 'experiencia'
+
+  if (req.body.es_temporal.temporalitat == true) {
+    es_temporal2_aux = 'temporal'
+  } else es_temporal2_aux = 'permanent'
+
     var elem = new element({
         titol: req.body.titol,
         id: uuid(),
@@ -49,7 +60,9 @@ exports.createElement = function (req, callback) {
         es_temporal: req.body.es_temporal,
         tags: req.body.tags,
         comentaris: [],
-        coordenades: req.body.coordenades
+        coordenades: req.body.coordenades,
+        tipus_element2: tipus_element2_aux,
+        es_temporal2: es_temporal2_aux
     })
     
     callback(elem)
@@ -71,12 +84,35 @@ exports.deleteElement = function (req, callback) {
 }
 
 exports.findElementByTitolFiltre = function (filter, callback) {
-  element.find({titol: {'$regex': filter.titol}},
-  null,
-  // { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },
-  // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
-  {sort: {data_publicacio: -1}},
-  function (err, elem) { callback(err, elem) })
+  if (filter.tags[0] == "fin"){
+    console.log("FILTER TITOL")
+    console.log(filter.titol)
+    console.log("FILTER es_producte")
+    console.log(filter.es_producte)
+    console.log("FILTER es_temporal")
+    console.log(filter.es_temporal)
+    console.log("FILTER tags")
+    console.log(filter.tags[0])
+    element.find({titol: {'$regex': filter.titol, '$options' : 'i'}, tipus_element2: {'$regex': filter.es_producte}, es_temporal2: {'$regex': filter.es_temporal}},
+    null,
+    // { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },   
+    // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
+    {sort: {data_publicacio: -1}},
+    function (err, elem) { 
+      console.log(elem)
+      callback(err, elem) })
+  }
+  else {
+    console.log("NO PELOTA NO")
+    element.find({titol: {'$regex': filter.titol, '$options' : 'i'}, tipus_element2: {'$regex': filter.es_producte}, es_temporal2: {'$regex': filter.es_temporal}, tags: {'$in': filter.tags}},
+    null,
+    // { coordenades: { $near: [ filter.longitud, filter.latitud ], $maxDistance: 30 } },   
+    // {skip: 0, limit: 20, sort: {data_publicacio: -1}},
+    {sort: {data_publicacio: -1}},
+    function (err, elem) { 
+      console.log(elem)
+      callback(err, elem) })
+  }
 }
 
 exports.findElementById = function (req, callback) {
@@ -183,4 +219,16 @@ exports.getImage = function (req, callback) {
   ], function (err, imgs) {
     callback(err, path.join(__dirname, '/../', imgs[0]._id.path))
   })
+}
+
+exports.getTags = function (callback){
+  element.aggregate([
+    {'$unwind': '$tags'},
+    {'$group': {
+      '_id': '$tags'
+    }}
+    ], function (err, llista) {
+      console.log(llista)
+      callback(err, llista)
+    })
 }
