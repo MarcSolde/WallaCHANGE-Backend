@@ -150,3 +150,10 @@ exports.getUserBySearch = function (req, callback) {
       callback(err, llista)
     })
 }
+
+exports.getUserByName = function (req, callback) {
+  usuari.find({nom: req.headers.nom},
+    function(err, usuaris) {
+      callback(err, usuaris)
+    })
+}
