@@ -45,7 +45,6 @@ var userSchema = new mongoose.Schema({
         default: 0
     },
     facebookId: String,
-    twitterId: String,
     id: String
 
 }, {
@@ -54,7 +53,6 @@ var userSchema = new mongoose.Schema({
             delete ret._id
             delete ret.__v
             delete ret.facebookId
-            delete ret.twitterId
             delete ret.salt
             delete ret.password_hash
             delete ret.num_valoracions
@@ -65,7 +63,6 @@ var userSchema = new mongoose.Schema({
             delete ret._id
             delete ret.__v
             delete ret.facebookId
-            delete ret.twitterId
             delete ret.salt
             delete ret.password_hash
             delete ret.num_valoracions
