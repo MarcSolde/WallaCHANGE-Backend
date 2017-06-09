@@ -18,7 +18,7 @@ const uuid = require('uuid/v4')
 			body: req.body.message,
 			author: req.query.from
 		})
-		console.log(conv)
+		//console.log(conv)
 		msg.save(function (err, msg) {
 			callback(err, msg.idIntercanvi)
 		})
@@ -52,16 +52,16 @@ exports.addMessage = function (req, callback) {
 		if (!err) {
 			const fullConversations = []
 			convs.forEach((conv) => {
-				console.log("hello: "+conv.id)
+				//console.log("hello: "+conv.id)
 				message.find({idIntercanvi: conv.id})
 				.sort('-createdAt')
 				.limit(1)
 				.exec((err, message) => {
 					item = {conversation: conv, message: message}
-					console.log(item)
+					//console.log(item)
 					fullConversations.push(item)
 					if (fullConversations.length === convs.length) {
-						console.log(fullConversations)
+						//console.log(fullConversations)
 						callback(err, fullConversations)
 					}
 				})

@@ -10,7 +10,7 @@ var storage = multer.diskStorage({
     callback(null, './uploads/profile')
   },
   filename: function (req, file, callback) {
-    console.log(file)
+    //console.log(file)
     callback(null, Date.now() + '_' + file.originalname)
   }
 })
@@ -44,9 +44,9 @@ function saltHashPassword (userpassword) {
 var updateRating = function (usr, rating) {
   user.findOne({id: usr.id}, function (user) {
     usr.num_valoracions += 1
-    console.log(usr.num_valoracions)
+    //console.log(usr.num_valoracions)
     usr.reputacio = (user.reputacio+rating)/usr.num_valoracions
-    console.log(usr.reputacio)
+    //console.log(usr.reputacio)
   })
   return usr
 }
@@ -123,7 +123,7 @@ exports.getAllUsers = function (callback) {
 
 exports.afegirImatge = function (req, res, callback) {
   upload(req, res, function (err) {
-    console.log(req.params.nom_user)
+    //console.log(req.params.nom_user)
     usuari.findOne({id: req.params.id}, function (err, user) {
       user.path = req.file.path
       user.save()

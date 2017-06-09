@@ -42,8 +42,8 @@ exports.loginFB = function(token, id, callback) {
         host: 'graph.facebook.com',
         path: '/me?access_token='+token
     }
-    console.log("AAAA")
-    console.log(token)
+    //console.log("AAAA")
+    //console.log(token)
     https.request(options, function(response) {
         var str = ''
         
@@ -52,13 +52,13 @@ exports.loginFB = function(token, id, callback) {
         });
         response.on('end', function () {
             var json = JSON.parse(str)
-            console.log(json.id === id)
+            //console.log(json.id === id)
             if (json.id === id) {
-              console.log("AS")
+              //console.log("AS")
                 usuari.findOne({facebookId: id}, function (err, user){
                     if (err) {
                         callback(err, null)
-                        console.log('aa')
+                        //console.log('aa')
                       }
                     if (!user) {
                         var user = new usuari ({
@@ -68,7 +68,7 @@ exports.loginFB = function(token, id, callback) {
                             id: uuidV4()
                         })
 			                  user.nom_user = user.nom_user.replace(/\s/g, '');
-                        console.log('bb')
+                        //console.log('bb')
                         userSvc.saveUser(user, function(err, user) {
                             if (err) {
                                 callback(err, null)

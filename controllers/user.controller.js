@@ -3,7 +3,7 @@ var userSvc = require('../services/user.service')
 exports.addUser = function (req, res) {
   var usuari = userSvc.createUser(req)
   userSvc.saveUser(usuari, function (err, nErr) {
-    console.log(usuari)
+    //console.log(usuari)
     jsonReturn(res, err, usuari)
   })
 }

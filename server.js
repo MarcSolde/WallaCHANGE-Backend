@@ -10,10 +10,10 @@ var io =require('socket.io')(80)
 console.log('Sockets on :80')
 var chat = io
 .on('connection', function(socket){
-	socket.emit('msg', {
+	/*socket.emit('msg', {
 		msg: 'Welcome!',
 		author: 'Server'
-	})
+	})*/
 
 	socket.on('msg', function(msg){
 		console.log('We got a msg! :'+msg.msg)
