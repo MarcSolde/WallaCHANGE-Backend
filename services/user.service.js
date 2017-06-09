@@ -10,7 +10,6 @@ var storage = multer.diskStorage({
     callback(null, './uploads/profile')
   },
   filename: function (req, file, callback) {
-    console.log(file)
     callback(null, Date.now() + '_' + file.originalname)
   }
 })
@@ -42,12 +41,9 @@ function saltHashPassword (userpassword) {
 }
 
 var updateRating = function (usr, rating) {
-  user.findOne({id: usr.id}, function (user) {
-    usr.num_valoracions += 1
-    console.log(usr.num_valoracions)
-    usr.reputacio = (user.reputacio+rating)/usr.num_valoracions
-    console.log(usr.reputacio)
-  })
+  var aux = usr.reputacio*usr.num_valoracions
+  usr.num_valoracions += 1;
+  usr.reputacio = (aux+rating)/usr.num_valoracions
   return usr
 }
 
@@ -123,7 +119,6 @@ exports.getAllUsers = function (callback) {
 
 exports.afegirImatge = function (req, res, callback) {
   upload(req, res, function (err) {
-    console.log(req.params.nom_user)
     usuari.findOne({id: req.params.id}, function (err, user) {
       user.path = req.file.path
       user.save()
@@ -139,17 +134,19 @@ exports.getImatge = function (req, callback) {
 }
 
 exports.getUserBySearch = function (req, callback) {
-  usuari.aggregate(
-    [
-      {'$match': {'preferencies': req.headers['preferencies']}},
+  usuari.aggregate([
+      {'$match': {'preferencies': req.headers.preferencies}},
       {'$unwind': '$preferencies'},
-      {'$group': {
-        'id': '$id',
-        'nom_user': {'$first': '$nom_user'}
-      }}
+      {'$group': {'_id': {'id': '$id',
+              'nom': '$nom',
+              'path': '$path',
+              'reputacio': '$reputacio'
+            },
+            'preferencies': {'$push': '$preferencies'}
+      }},
+      {'$project': {_id: 0, id: '$_id.id', nom: '$_id.nom', path: '$_id.path', reputacio: '$_id.reputacio', preferencies: '$preferencies'}}
     ],
     function (err, llista) {
-      console.log(llista)
       callback(err, llista)
     })
 }
