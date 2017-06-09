@@ -76,8 +76,10 @@ exports.getAllElements = function (req, res) {
     // 'latitud': req.header(),
     'es_producte': req.header('es_producte'),
     'es_temporal': req.header('temporalitat')
-  }
-  elementSvc.findElementByTitolFiltre(filter, function (err, elem) {
+  }    
+  console.log("LA PELOTETA ESTA AQUI")
+  console.log(filter)
+  elementSvc.findElementByTitolFiltre(filter,function(err,elem){
     if (err) {
       res.status(500).send(err.message)
     } else res.status(200).json(elem)

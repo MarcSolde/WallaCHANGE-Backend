@@ -19,6 +19,8 @@ var elementSchema = new mongoose.Schema({
         temporalitat: Boolean,
         periode: String
     },
+    tipus_element2: String,
+    es_temporal2: String,
     tags: [String],
     comentaris: [{
         text: String,
